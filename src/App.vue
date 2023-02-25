@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {RouterView} from 'vue-router'
 import Navigation from "@/views/Navigation.vue";
+import ProfilePreview from "@/components/ProfilePreview.vue";
 
 // Default application to dark mode
 document.documentElement.setAttribute("theme", "dark");
@@ -12,7 +13,9 @@ document.documentElement.setAttribute("theme", "dark");
     <nav>
       <h1 class="app-title">Unero</h1>
       <hr/>
-      <Navigation/>
+      <Navigation class="navigation"/>
+      <hr/>
+      <ProfilePreview class="profile"/>
     </nav>
     <main>
       <router-view></router-view>
@@ -47,6 +50,9 @@ document.documentElement.setAttribute("theme", "dark");
 }
 
 nav {
+  display: flex;
+  flex-direction: column;
+
   background-color: var(--color-background-mute);
   padding: 1rem;
   flex-grow: 1;
@@ -66,6 +72,14 @@ nav {
   }
 
   transition: transform 0.5s ease-in-out, flex-grow 0.5s ease-in-out;
+
+  .navigation {
+    flex-grow: 1;
+  }
+
+  .profile {
+    align-self: flex-end;
+  }
 }
 
 main {
