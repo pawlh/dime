@@ -14,7 +14,9 @@ const route = useRoute();
         <router-link :to="{name: 'accounts'}">Manage Accounts</router-link>
       </div>
     </div>
-    <router-view class="content"></router-view>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -79,6 +81,7 @@ const route = useRoute();
 }
 
 .content {
+  padding: 1rem;
 }
 
 a:link, a:visited, a:hover, a:active {
