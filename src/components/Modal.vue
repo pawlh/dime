@@ -17,7 +17,9 @@ const modal = ref('modal')
        @click="$emit('close-modal')">
     <div class="modal-content" @click.stop>
       <span class="close" @click="$emit('close-modal')">&times;</span>
-      <p>This is the modal content!</p>
+      <slot>
+        No content provided
+      </slot>
     </div>
   </div>
 
