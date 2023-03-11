@@ -5,28 +5,36 @@ import ProfilePreview from "@/components/ProfilePreview.vue";
 import FloatingActionButton from "@/components/FloatingActionButton.vue";
 
 import {useRouter} from "vue-router";
+import {useStateStore} from "@/store/state";
+import Login from "@/views/Login.vue";
 
 // Default application to dark mode
 document.documentElement.setAttribute("theme", "dark");
 
 const router = useRouter();
+const stateStore = useStateStore();
 
 </script>
 
 <template>
-  <div id="app-container">
-    <nav>
-      <h1 class="app-title">Unero</h1>
-      <hr/>
-      <Navigation class="navigation"/>
-      <hr/>
-      <ProfilePreview class="profile"/>
-    </nav>
-    <main>
-      <router-view></router-view>
-    </main>
-  </div>
-  <FloatingActionButton @clicked="() => router.push({name: 'import'})"/>
+  <template v-if="!stateStore.loggedIn">
+    <Login/>
+  </template>
+  <template v-else>
+    <div id="app-container">
+      <nav>
+        <h1 class="app-title">Unero</h1>
+        <hr/>
+        <Navigation class="navigation"/>
+        <hr/>
+        <ProfilePreview class="profile"/>
+      </nav>
+      <main>
+        <router-view></router-view>
+      </main>
+    </div>
+    <FloatingActionButton @clicked="() => router.push({name: 'import'})"/>
+  </template>
 </template>
 
 <style lang="less" scoped>
