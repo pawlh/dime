@@ -3,14 +3,13 @@ import {RouterView} from 'vue-router'
 import Navigation from "@/views/Navigation.vue";
 import ProfilePreview from "@/components/ProfilePreview.vue";
 import FloatingActionButton from "@/components/FloatingActionButton.vue";
-import Modal from "@/components/Modal.vue";
 
-import {ref} from "vue";
+import {useRouter} from "vue-router";
 
 // Default application to dark mode
 document.documentElement.setAttribute("theme", "dark");
 
-const modalVisible = ref(false);
+const router = useRouter();
 
 </script>
 
@@ -27,8 +26,7 @@ const modalVisible = ref(false);
       <router-view></router-view>
     </main>
   </div>
-  <FloatingActionButton @clicked="() => modalVisible = true"/>
-  <Modal :visible="modalVisible" @close-modal="() => modalVisible = false"/>
+  <FloatingActionButton @clicked="() => router.push({name: 'import'})"/>
 </template>
 
 <style lang="less" scoped>
@@ -91,7 +89,7 @@ nav {
 }
 
 main {
-  padding: 1rem;
+  //padding: 1rem;
   flex-grow: 4;
 }
 
