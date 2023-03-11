@@ -47,21 +47,27 @@ const modal = ref('modal')
   margin: 15% auto;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 80%;
+  max-width: 80%;
 }
 
 .close {
+  //color: #aaa;
+  //float: right;
+  //font-size: 28px;
+  //font-weight: bold;
   color: #aaa;
-  float: right;
-  font-size: 28px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 45px;
   font-weight: bold;
-}
+  line-height: 45px;
 
-.close:hover,
-.close:focus {
-  //color: darken(#aaa);
-  text-decoration: none;
-  cursor: pointer;
+  &:hover, &:focus {
+    color: darken(#aaa, 10%);
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
 
 </style>
