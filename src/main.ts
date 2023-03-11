@@ -12,14 +12,15 @@ import {
     faChevronRight,
     faUser,
     faUpload,
-    faWrench
+    faWrench,
+    faFileImport
 } from '@fortawesome/free-solid-svg-icons'
 
 import './assets/main.less'
 
 const pinia = createPinia()
 
-library.add(faPiggyBank, faCalculator, faChartLine, faChevronLeft, faChevronRight, faUser, faUpload, faWrench)
+library.add(faPiggyBank, faCalculator, faChartLine, faChevronLeft, faChevronRight, faUser, faUpload, faWrench, faFileImport)
 
 const app = createApp(App)
 
