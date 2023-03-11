@@ -9,12 +9,13 @@ import {
     faChartLine,
     faChevronLeft,
     faChevronRight,
-    faUser
+    faUser,
+    faUpload
 } from '@fortawesome/free-solid-svg-icons'
 
 import './assets/main.less'
 
-library.add(faPiggyBank, faCalculator, faChartLine, faChevronLeft, faChevronRight, faUser)
+library.add(faPiggyBank, faCalculator, faChartLine, faChevronLeft, faChevronRight, faUser, faUpload)
 
 const app = createApp(App)
 
