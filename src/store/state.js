@@ -12,5 +12,5 @@ export const useStateStore = defineStore('counter', () => {
 })
 
 // load store values from localStorage
-useStateStore().loggedIn.value = localStorage.getItem('loggedIn') === 'true'
-useStateStore().loggedInUser.value = JSON.parse(localStorage.getItem('loggedInUser'))
+// useStateStore().loggedIn.value = localStorage.getItem('loggedIn') === 'true'
+// useStateStore().loggedInUser.value = JSON.parse(localStorage.getItem('loggedInUser'))
