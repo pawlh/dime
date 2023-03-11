@@ -2,6 +2,8 @@
 import {RouterView} from 'vue-router'
 import Navigation from "@/views/Navigation.vue";
 import ProfilePreview from "@/components/ProfilePreview.vue";
+import FloatingActionButton from "@/components/FloatingActionButton.vue";
+import Modal from "@/components/Modal.vue";
 
 // Default application to dark mode
 document.documentElement.setAttribute("theme", "dark");
@@ -21,6 +23,8 @@ document.documentElement.setAttribute("theme", "dark");
       <router-view></router-view>
     </main>
   </div>
+  <FloatingActionButton/>
+  <Modal/>
 </template>
 
 <style lang="less" scoped>
