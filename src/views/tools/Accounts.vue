@@ -1,11 +1,9 @@
 <template>
-
+  <NotReady/>
 </template>
 
-<script>
-export default {
-  name: "Accounts"
-}
+<script setup>
+import NotReady from "@/components/NotReady.vue";
 </script>
 
 <style scoped>
