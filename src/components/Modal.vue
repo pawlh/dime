@@ -1,36 +1,29 @@
 <script setup>
 import {ref} from 'vue';
 
-const modal = ref('modal')//document.getElementById('modal');
-const closeButton = document.getElementsByClassName('close')[0];
+defineProps({
+  visible: Boolean
+})
 
-function openModal() {
-  modal.value.style.display = 'block';
-}
-
-function closeModal() {
-  modal.value.style.display = 'none';
-}
-
-// window.onclick = function(event) {
-//   if (event.target === modal) {
-//     closeModal();
-//   }
-// }
+const modal = ref('modal')
 
 </script>
 
 <template>
-  <div id="modal" class="modal" ref="modal">
-    <div class="modal-content">
-      <span class="close" @click="closeModal">&times;</span>
+  <div id="modal"
+       class="modal"
+       :class="{hidden: !visible}"
+       ref="modal"
+       @click="$emit('close-modal')">
+    <div class="modal-content" @click.stop>
+      <span class="close" @click="$emit('close-modal')">&times;</span>
       <p>This is the modal content!</p>
     </div>
   </div>
 
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .modal {
   display: block;
   position: fixed;
@@ -43,11 +36,14 @@ function closeModal() {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.hidden {
+  display: none;
+}
+
 .modal-content {
   background-color: var(--color-background-soft);
   margin: 15% auto;
   padding: 20px;
-  /*border: 1px solid #888;*/
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   width: 80%;
 }
@@ -61,7 +57,7 @@ function closeModal() {
 
 .close:hover,
 .close:focus {
-  color: black;
+  //color: darken(#aaa);
   text-decoration: none;
   cursor: pointer;
 }
