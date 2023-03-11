@@ -27,6 +27,7 @@ const router = createRouter({
         {
             path: '/tools',
             component: Tools,
+            name: 'tools',
             redirect: '/tools/import',
             children: [
                 {

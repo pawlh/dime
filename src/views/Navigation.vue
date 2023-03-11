@@ -31,7 +31,7 @@ const route = useRoute();
     </li>
     <li>
       <NavItem
-          :selected="route.name === 'tools'"
+          :selected="route.path.indexOf('/tools/') > -1"
           icon-type="fa-wrench"
           destination="tools">Tools
       </NavItem>
