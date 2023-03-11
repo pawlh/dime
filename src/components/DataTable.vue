@@ -1,32 +1,41 @@
-<script lang="ts" setup>
+<script setup>
 
 import Pagination from "@/components/Pagination.vue"
 import {ref, computed} from 'vue'
 
-export interface ColumnDefinition {
-  label: string,
-  sortable: boolean,
-  prefix?: string,
-  hidden?: boolean
-}
+const props = defineProps({
+  headers: Array,
+  rows: Array,
+  paginate: Boolean,
+  rowsPerPage: Number
+})
 
-export interface RowData {
-  [key: string]: any
-}
+const sortedBy = ref("");
 
-const props = defineProps<{
-  headers: ColumnDefinition[],
-  rows: RowData[],
-  paginate: boolean,
-  rowsPerPage: number
-}>()
+const sortedRows = computed(() => {
+  if (sortedBy.value === "") {
+    return props.rows;
+  }
+
+  return props.rows.sort((a, b) => {
+    if (a[sortedBy.value] < b[sortedBy.value]) {
+      console.log("a is less than b")
+      return -1;
+    }
+    if (a[sortedBy.value] > b[sortedBy.value]) {
+      console.log("a is greater than b")
+      return 1;
+    }
+    return 0;
+  });
+})
 
 const currentPage = ref(1);
 
 const paginatedRows = computed(() => {
   const startIndex = (currentPage.value - 1) * props.rowsPerPage;
   const endIndex = startIndex + props.rowsPerPage;
-  return props.rows.slice(startIndex, endIndex);
+  return sortedRows.value.slice(startIndex, endIndex);
 });
 
 </script>
@@ -37,7 +46,11 @@ const paginatedRows = computed(() => {
       <thead>
       <tr>
         <template v-for="header in headers" :key="header.label">
-          <th v-if="!header.hidden">
+          <th v-if="!header.hidden && header.sortable"
+              @click="() => sortedBy = header.label">
+            {{ header.label }}
+          </th>
+          <th v-else-if="!header.hidden">
             {{ header.label }}
           </th>
         </template>
@@ -46,9 +59,14 @@ const paginatedRows = computed(() => {
       <tbody>
       <tr v-for="row in paginatedRows" :key="row.id">
         <template v-for="header in headers" :key="header.label">
-          <td v-if="!header.hidden">
-            {{ header.prefix }}{{ row[header.label] }}
-          </td>
+          <template v-if="!header.hidden">
+            <td v-if="header.formatter">
+              {{ header.formatter(row[header.label]) }}
+            </td>
+            <td v-else>
+              {{ row[header.label] }}
+            </td>
+          </template>
         </template>
       </tr>
       </tbody>
