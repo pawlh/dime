@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="floating-circle">
+  <div class="floating-circle" @click="$emit('clicked')">
     <font-awesome-icon class="icon" icon="fa-upload"/>
   </div>
 </template>

@@ -5,8 +5,12 @@ import ProfilePreview from "@/components/ProfilePreview.vue";
 import FloatingActionButton from "@/components/FloatingActionButton.vue";
 import Modal from "@/components/Modal.vue";
 
+import {ref} from "vue";
+
 // Default application to dark mode
 document.documentElement.setAttribute("theme", "dark");
+
+const modalVisible = ref(false);
 
 </script>
 
@@ -23,8 +27,8 @@ document.documentElement.setAttribute("theme", "dark");
       <router-view></router-view>
     </main>
   </div>
-  <FloatingActionButton/>
-  <Modal/>
+  <FloatingActionButton @clicked="() => modalVisible = true"/>
+  <Modal :visible="modalVisible" @close-modal="() => modalVisible = false"/>
 </template>
 
 <style lang="less" scoped>
