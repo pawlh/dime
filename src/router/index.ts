@@ -3,6 +3,8 @@ import Transactions from '@/views/Transactions.vue'
 import Budgets from "@/views/Budgets.vue";
 import Reports from "@/views/Reports.vue";
 import Tools from "@/views/Tools.vue";
+import Import from "@/views/tools/Import.vue";
+import Accounts from "@/views/tools/Accounts.vue";
 //
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,9 +25,20 @@ const router = createRouter({
             component: Reports
         },
         {
-            path: '/tools',
-            name: 'tools',
-            component: Tools
+            path: '/tools/:tool',
+            component: Tools,
+            children: [
+                {
+                    path: 'import',
+                    name: 'import',
+                    component: Import
+                },
+                {
+                    path: 'accounts',
+                    name: 'accounts',
+                    component: Accounts
+                }
+            ]
         }
     ]
 })
