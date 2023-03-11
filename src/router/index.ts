@@ -5,7 +5,7 @@ import Reports from "@/views/Reports.vue";
 import Tools from "@/views/Tools.vue";
 import Import from "@/views/tools/Import.vue";
 import Accounts from "@/views/tools/Accounts.vue";
-//
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -25,8 +25,9 @@ const router = createRouter({
             component: Reports
         },
         {
-            path: '/tools/:tool',
+            path: '/tools',
             component: Tools,
+            redirect: '/tools/import',
             children: [
                 {
                     path: 'import',
