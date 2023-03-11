@@ -29,6 +29,13 @@ const route = useRoute();
           destination="reports">Reports
       </NavItem>
     </li>
+    <li>
+      <NavItem
+          :selected="route.name === 'tools'"
+          icon-type="fa-wrench"
+          destination="tools">Tools
+      </NavItem>
+    </li>
   </ul>
 </template>
 
