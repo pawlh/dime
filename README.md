@@ -58,3 +58,9 @@ document.documentElement.setAttribute("theme", "dark");
     --color-background-mute: var(--vt-c-black-mute);
 }
 ```
+
+### Best place to maintain state
+
+I ran into a few issues managing state. My first instinct was to pass in props then modify those states from within the
+components. It turns out that Vue props are (mostly) readonly to prevent recursive updates, making it so I had to pass
+updates via emits back up to the parent.
