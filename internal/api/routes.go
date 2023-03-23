@@ -1,8 +1,18 @@
 package api
 
-import "github.com/labstack/echo/v4"
+import (
+	echojwt "github.com/labstack/echo-jwt/v4"
+	"github.com/labstack/echo/v4"
+)
 
 func RegisterRoutes(e *echo.Echo) {
-	e.GET("/ping", Ping)
-	e.POST("/login", Login)
+
+	apiGroup := e.Group("/api")
+	apiGroup.POST("/login", Login)
+
+	apiGroup.Use(echojwt.WithConfig(echojwt.Config{
+		SigningKey: []byte("secret"),
+	}))
+
+	apiGroup.GET("/ping", Ping)
 }
