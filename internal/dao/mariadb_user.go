@@ -20,3 +20,13 @@ func (m MariaDbUser) Insert(user *models.User) error {
 	)
 	return err
 }
+
+func (m MariaDbUser) FindByUsername(username string) (*models.User, error) {
+	row := m.db.QueryRow("SELECT username, password FROM user WHERE username = ?", username)
+	user := new(models.User)
+	err := row.Scan(&user.Username, &user.Password)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
