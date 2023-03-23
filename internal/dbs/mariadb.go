@@ -10,7 +10,8 @@ var userSchema = `
 CREATE TABLE IF NOT EXISTS user (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    name TEXT NOT NULL
 );
 `
 var transactionSchema = `
