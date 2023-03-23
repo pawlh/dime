@@ -63,7 +63,7 @@ func validateToken(next echo.HandlerFunc) echo.HandlerFunc {
 			return mustSendError(c, http.StatusUnauthorized, "bad token")
 		}
 
-		if !claims.VerifyExpiresAt(time.Now().Add(time.Hour*100).Unix(), true) {
+		if !claims.VerifyExpiresAt(time.Now().Add(time.Hour).Unix(), true) {
 			return mustSendError(c, http.StatusUnauthorized, "token expired")
 		}
 
