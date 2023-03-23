@@ -53,3 +53,22 @@ func Login(c echo.Context) error {
 
 	return nil
 }
+
+func validateToken(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		token := c.Get("user").(*jwt.Token)
+		claims := token.Claims.(jwt.MapClaims)
+
+		if claims.Valid() != nil {
+			return mustSendError(c, http.StatusUnauthorized, "bad token")
+		}
+
+		if !claims.VerifyExpiresAt(time.Now().Add(time.Hour*100).Unix(), true) {
+			return mustSendError(c, http.StatusUnauthorized, "token expired")
+		}
+
+		c.Set("username", claims["usr"])
+
+		return next(c)
+	}
+}
