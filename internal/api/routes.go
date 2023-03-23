@@ -11,8 +11,9 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.POST("/login", Login)
 
 	apiGroup.Use(echojwt.WithConfig(echojwt.Config{
-		SigningKey: []byte("secret"),
+		SigningKey: secret,
 	}))
+	apiGroup.Use(validateToken)
 
 	apiGroup.GET("/ping", Ping)
 }
