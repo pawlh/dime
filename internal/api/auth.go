@@ -6,10 +6,17 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"time"
 )
 
 // Secret TODO: move this to a config file
 var secret = []byte("secret")
+
+type jwtCustomClaims struct {
+	Username string `json:"usr"`
+	Name     string `json:"nme"`
+	jwt.RegisteredClaims
+}
 
 func Login(c echo.Context) error {
 	var user models.User
@@ -24,7 +31,15 @@ func Login(c echo.Context) error {
 		return mustSendError(c, http.StatusUnauthorized, "bad credentials")
 	}
 
-	token := jwt.New(jwt.SigningMethodHS256)
+	claims := &jwtCustomClaims{
+		user.Username,
+		user.Name,
+		jwt.RegisteredClaims{
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString(secret)
 	if err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error signing token")
