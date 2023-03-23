@@ -88,6 +88,7 @@ func Register(c echo.Context) error {
 	return nil
 }
 
+// generateToken generates a JWT token which expires in 4 hours
 func generateToken(user models.User) (string, error) {
 	claims := &jwtCustomClaims{
 		user.Username,
@@ -103,6 +104,7 @@ func generateToken(user models.User) (string, error) {
 	return signedToken, err
 }
 
+// ValidateToken verifies the token and sets the username in the context
 func validateToken(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token := c.Get("user").(*jwt.Token)
