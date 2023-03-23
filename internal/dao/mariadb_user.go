@@ -25,7 +25,7 @@ func (m MariaDbUser) Create(user *models.User) error {
 func (m MariaDbUser) FindByUsername(username string) (*models.User, error) {
 	row := m.db.QueryRow("SELECT username, password, name FROM user WHERE username = ?", username)
 	user := new(models.User)
-	err := row.Scan(&user.Username, &user.Password)
+	err := row.Scan(&user.Username, &user.Password, &user.Name)
 	if err == sql.ErrNoRows {
 		return nil, UserNotFound{}
 	} else if err != nil {
