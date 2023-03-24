@@ -31,7 +31,7 @@ func Upload(c echo.Context) error {
 	uploadDate := time.Now()
 
 	fileName := c.Get("username").(string) + "_" + uploadDate.Format(dateLayout) + ".csv"
-	uploadRecord := models.UploadData{
+	archive := models.Archive{
 		UploadDate:   uploadDate,
 		Owner:        c.Get("username").(string),
 		FileName:     fileName,
@@ -43,7 +43,7 @@ func Upload(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "error saving file", err)
 	}
 
-	err = dbs.DB.UploadDataDao().Create(&uploadRecord)
+	err = dbs.DB.ArchiveDao().Create(&archive)
 	if err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error saving upload record", err)
 	}

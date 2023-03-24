@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS transaction (
 `
 
 var uploadDataSchema = `
-CREATE TABLE IF NOT EXISTS upload_data (
+CREATE TABLE IF NOT EXISTS archive (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     upload_date DATETIME NOT NULL,
     file_name TEXT NOT NULL,
@@ -48,8 +48,8 @@ func (m MariaDB) UserDao() dao.UserDAO {
 	return mariadb.NewMariaDbUser(m.db)
 }
 
-func (m MariaDB) UploadDataDao() dao.UploadDataDAO {
-	return mariadb.NewMariaDbUploadData(m.db)
+func (m MariaDB) ArchiveDao() dao.ArchiveDao {
+	return mariadb.NewMariaDbArchive(m.db)
 }
 
 func InitMariaDB() error {

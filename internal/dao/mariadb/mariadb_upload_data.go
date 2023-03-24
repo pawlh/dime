@@ -3,18 +3,19 @@ package mariadb
 import (
 	"database/sql"
 	"dime/internal/models"
+	"github.com/labstack/gommon/log"
 )
 
 type UploadData struct {
 	db *sql.DB
 }
 
-func NewMariaDbUploadData(db *sql.DB) UploadData {
+func NewMariaDbArchive(db *sql.DB) UploadData {
 	return UploadData{db: db}
 }
 
-func (m UploadData) Create(uploadData *models.UploadData) error {
-	_, err := m.db.Exec("INSERT INTO upload_data (upload_date, file_name, original_name, owner) VALUES (?, ?, ?, ?)",
+func (m UploadData) Create(uploadData *models.Archive) error {
+	_, err := m.db.Exec("INSERT INTO archive (upload_date, file_name, original_name, owner) VALUES (?, ?, ?, ?)",
 		uploadData.UploadDate,
 		uploadData.FileName,
 		uploadData.OriginalName,
@@ -27,22 +28,21 @@ func (m UploadData) Create(uploadData *models.UploadData) error {
 	return nil
 }
 
-func (m UploadData) FindByOwner(owner string) ([]models.UploadData, error) {
-	rows, err := m.db.Query("SELECT * FROM upload_data WHERE owner = ?", owner)
+func (m UploadData) FindByOwner(owner string) ([]models.Archive, error) {
+	rows, err := m.db.Query("SELECT * FROM archive WHERE owner = ?", owner)
 	if err != nil {
 		return nil, err
 	}
-	defer func(rows *sql.Rows) error {
+	defer func(rows *sql.Rows) {
 		err := rows.Close()
 		if err != nil {
-			return err
+			log.Error(err)
 		}
-		return nil
 	}(rows)
 
-	var uploadData []models.UploadData
+	var uploadData []models.Archive
 	for rows.Next() {
-		var ud models.UploadData
+		var ud models.Archive
 		err := rows.Scan(&ud.ID, &ud.UploadDate, &ud.FileName, &ud.OriginalName, &ud.Owner)
 		if err != nil {
 			return nil, err
