@@ -22,7 +22,7 @@ func (m MongoDB) TransactionDao() dao.TransactionDao {
 }
 
 func (m MongoDB) ArchiveDao() dao.ArchiveDao {
-	return nil
+	return mongodb.NewArchive(m.client)
 }
 
 func InitMongoDB() error {
