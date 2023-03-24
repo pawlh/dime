@@ -3,6 +3,7 @@ package dbs
 import (
 	"database/sql"
 	"dime/internal/dao"
+	"dime/internal/dao/mariadb"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -25,16 +26,30 @@ CREATE TABLE IF NOT EXISTS transaction (
 );
 `
 
+var uploadDataSchema = `
+CREATE TABLE IF NOT EXISTS upload_data (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    upload_date DATETIME NOT NULL,
+    file_name TEXT NOT NULL,
+    original_name TEXT NOT NULL,
+    owner TEXT NOT NULL
+);
+`
+
 type MariaDB struct {
 	db *sql.DB
 }
 
 func (m MariaDB) TransactionDao() dao.TransactionDao {
-	return dao.NewMariaDbTransaction(m.db)
+	return mariadb.NewMariaDbTransaction(m.db)
 }
 
 func (m MariaDB) UserDao() dao.UserDAO {
-	return dao.NewMariaDbUser(m.db)
+	return mariadb.NewMariaDbUser(m.db)
+}
+
+func (m MariaDB) UploadDataDao() dao.UploadDataDAO {
+	return mariadb.NewMariaDbUploadData(m.db)
 }
 
 func InitMariaDB() error {
@@ -54,7 +69,17 @@ func InitMariaDB() error {
 		return err
 	}
 
-	_, err = db.Exec(userSchema)
+	err = loadSchemas(db)
+	if err != nil {
+		return err
+	}
+
+	DB = MariaDB{db: db}
+	return nil
+}
+
+func loadSchemas(db *sql.DB) error {
+	_, err := db.Exec(userSchema)
 	if err != nil {
 		return err
 	}
@@ -64,6 +89,10 @@ func InitMariaDB() error {
 		return err
 	}
 
-	DB = MariaDB{db: db}
+	_, err = db.Exec(uploadDataSchema)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
