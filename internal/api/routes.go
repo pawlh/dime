@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/labstack/echo-jwt/v4"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,6 +13,8 @@ func RegisterRoutes(e *echo.Echo) {
 
 	apiGroup.Use(echojwt.JWT(secret))
 	apiGroup.Use(validateToken)
+
+	apiGroup.POST("/import", Upload)
 
 	apiGroup.GET("/ping", Ping)
 }
