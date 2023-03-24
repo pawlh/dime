@@ -29,7 +29,7 @@ func Login(c echo.Context) error {
 
 	if match, err := dbs.DB.UserDao().FindByUsername(user.Username); err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error finding user", nil)
-	} else if match.Password != user.Password {
+	} else if match == nil || match.Password != user.Password {
 		return mustSendError(c, http.StatusUnauthorized, "bad credentials", nil)
 	}
 
