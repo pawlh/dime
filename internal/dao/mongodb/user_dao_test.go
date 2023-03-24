@@ -66,3 +66,12 @@ func TestUserDao_Create_Find(t *testing.T) {
 		t.Errorf("Users do not match: %v", err)
 	}
 }
+
+func TestUserDoesNotExist(t *testing.T) {
+	userDao := NewUser(client)
+	if match, err := userDao.FindByUsername("nonexistent"); err != nil {
+		t.Errorf("Error finding user: %v", err)
+	} else if match != nil {
+		t.Errorf("User should not exist: %v", err)
+	}
+}

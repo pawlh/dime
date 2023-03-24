@@ -29,6 +29,9 @@ func (m UserDao) FindByUsername(username string) (*models.User, error) {
 	var user models.User
 	err := collection.FindOne(nil, filter).Decode(&user)
 	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, nil
+		}
 		return nil, err
 	}
 
