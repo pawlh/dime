@@ -38,11 +38,6 @@ func InitMongoDB() error {
 		return err
 	}
 
-	err = client.Connect(nil)
-	if err != nil {
-		return err
-	}
-
 	DB = MongoDB{
 		client: client,
 	}
