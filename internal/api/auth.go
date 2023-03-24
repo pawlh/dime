@@ -66,7 +66,7 @@ func Register(c echo.Context) error {
 		if !errors.As(err, &dao.UserNotFound{}) {
 			return mustSendError(c, http.StatusInternalServerError, "error searching existing users", err)
 		}
-	} else if match.Username != "" {
+	} else if match != nil && match.Username == user.Username {
 		return mustSendError(c, http.StatusConflict, "username already exists", nil)
 	}
 
