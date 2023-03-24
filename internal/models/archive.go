@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type UploadData struct {
+type Archive struct {
 	ID           int
 	UploadDate   time.Time
 	FileName     string
