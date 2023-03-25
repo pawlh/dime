@@ -1,0 +1,30 @@
+name: MongoDB and Go Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: MongoDB and Go Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.17'
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+#           mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-replica-set: test-rs
+          mongodb-port: 27018
+
+      - name: Run tests
+        run: go test ./...
