@@ -8,10 +8,8 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"io"
-	"log"
 	"mime/multipart"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -63,28 +61,4 @@ func fileToBuffer(file multipart.File) (*bytes.Buffer, error) {
 	}
 
 	return buf, nil
-}
-
-func saveCSVFile(buf *bytes.Buffer, fileName string) error {
-	csv.Parse(buf)
-
-	path, err := os.Getwd()
-	if err != nil {
-		log.Println(err)
-	}
-	fmt.Println(path)
-
-	_, err = os.Stat("storage/uploads")
-	if os.IsNotExist(err) {
-		err = os.MkdirAll("storage/uploads", 0755)
-		if err != nil {
-			return fmt.Errorf("error creating directory: %w", err)
-		}
-	}
-	err = os.WriteFile("storage/uploads/"+fileName, buf.Bytes(), 0644)
-	if err != nil {
-		return fmt.Errorf("error saving file: %w", err)
-	}
-
-	return nil
 }
