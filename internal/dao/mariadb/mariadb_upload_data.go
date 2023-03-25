@@ -51,3 +51,7 @@ func (m UploadData) FindByOwner(owner string) ([]models.Archive, error) {
 	//return uploadData, nil
 	return nil, nil
 }
+
+func (m UploadData) UpdateColumnMapping(archive *models.Archive) error {
+	return nil
+}
