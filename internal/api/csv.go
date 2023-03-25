@@ -2,6 +2,7 @@ package api
 
 import (
 	"bytes"
+	"dime/internal/csv"
 	"dime/internal/dbs"
 	"dime/internal/models"
 	"fmt"
@@ -14,7 +15,7 @@ import (
 	"time"
 )
 
-var dateLayout = "2006-01-02 15:04:05"
+//var dateLayout = "2006-01-02 15:04:05"
 
 func Upload(c echo.Context) error {
 
@@ -28,35 +29,44 @@ func Upload(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "error opening file", err)
 	}
 
-	uploadDate := time.Now()
-
-	fileName := c.Get("username").(string) + "_" + uploadDate.Format(dateLayout) + ".csv"
-	archive := models.Archive{
-		UploadDate:   uploadDate,
-		Owner:        c.Get("username").(string),
-		FileName:     fileName,
-		OriginalName: formFile.Filename,
+	buf, err := fileToBuffer(file)
+	if err != nil {
+		return mustSendError(c, http.StatusInternalServerError, "error reading file", err)
 	}
 
-	err = saveCSVFile(file, fileName)
+	parsedCSV, err := csv.Parse(buf)
 	if err != nil {
-		return mustSendError(c, http.StatusInternalServerError, "error saving file", err)
+		return mustSendError(c, http.StatusInternalServerError, "error parsing file", err)
+	}
+
+	uploadDate := time.Now()
+
+	archive := models.Archive{
+		UploadDate:   uploadDate,
+		OriginalName: formFile.Filename,
+		Data:         parsedCSV,
 	}
 
 	err = dbs.DB.ArchiveDao().Create(&archive)
 	if err != nil {
-		return mustSendError(c, http.StatusInternalServerError, "error saving upload record", err)
+		return mustSendError(c, http.StatusInternalServerError, "error saving record", err)
 	}
 
 	return nil
 }
 
-func saveCSVFile(file multipart.File, fileName string) error {
+func fileToBuffer(file multipart.File) (*bytes.Buffer, error) {
 	buf := new(bytes.Buffer)
 	_, err := io.Copy(buf, file)
 	if err != nil {
-		return fmt.Errorf("error copying file: %w", err)
+		return nil, fmt.Errorf("error copying file: %w", err)
 	}
+
+	return buf, nil
+}
+
+func saveCSVFile(buf *bytes.Buffer, fileName string) error {
+	csv.Parse(buf)
 
 	path, err := os.Getwd()
 	if err != nil {
