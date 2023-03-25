@@ -8,7 +8,6 @@ import (
 
 func TestArchive_Create(t *testing.T) {
 	testArchive := models.Archive{
-		ID:           0,
 		UploadDate:   time.Time{},
 		OriginalName: "",
 		Data:         nil,
