@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	err := dbs.InitMariaDB()
+	err := dbs.InitMongoDB()
 	if err != nil {
 		log.Fatal(err)
 	}
