@@ -15,6 +15,4 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.Use(validateToken)
 
 	apiGroup.POST("/import", Upload)
-
-	apiGroup.GET("/ping", Ping)
 }
