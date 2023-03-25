@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"dime/internal/models"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -20,6 +21,19 @@ func (m Archive) Create(archive *models.Archive) error {
 
 	collections := m.client.Database("dime").Collection("archive")
 	_, err := collections.InsertOne(nil, archive)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m Archive) UpdateColumnMapping(archive *models.Archive) error {
+	collection := m.client.Database("dime").Collection("archive")
+
+	update := bson.D{{"$set", bson.D{{"column_mapping", archive.ColumnMapping}}}}
+
+	_, err := collection.UpdateOne(nil, models.Archive{ID: archive.ID}, update)
 	if err != nil {
 		return err
 	}
