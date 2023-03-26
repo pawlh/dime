@@ -57,7 +57,7 @@ func TestArchive_UpdateColumnMapping(t *testing.T) {
 	}
 
 	if matchedArchive.ColumnMapping != columnMapping {
-		t.Errorf("Column mapping was not updated")
+		t.Errorf("Column mapping was not updated. Expected: %v, got: %v", columnMapping, matchedArchive.ColumnMapping)
 	}
 }
 
