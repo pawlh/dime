@@ -25,6 +25,7 @@ jobs:
 #           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-replica-set: test-rs
           mongodb-port: 27018
+          cache: true
 
       - name: Run tests
         run: go test ./...
