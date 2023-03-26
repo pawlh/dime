@@ -18,6 +18,12 @@ jobs:
 
       - name: Install dependencies
         run: go mod download
+        
+      - name: Cache MongoDB
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/bin/mongodb
+          key: ${{ runner.os }}-mongodb-${{ hashFiles('**/go.sum') }}
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.8.0
@@ -25,7 +31,6 @@ jobs:
 #           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-replica-set: test-rs
           mongodb-port: 27018
-          cache: true
 
       - name: Run tests
         run: go test ./...
