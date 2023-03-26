@@ -18,12 +18,6 @@ jobs:
 
       - name: Install dependencies
         run: go mod download
-        
-      - name: Cache MongoDB
-        uses: actions/cache@v3
-        with:
-          path: /usr/local/bin/mongodb
-          key: ${{ runner.os }}-mongodb-${{ hashFiles('**/go.sum') }}
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.8.0
