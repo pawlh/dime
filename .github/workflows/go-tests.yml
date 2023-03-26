@@ -1,10 +1,10 @@
-name: MongoDB and Go Test
+name: Run Go Tests
 
 on: [push, pull_request]
 
 jobs:
   test:
-    name: MongoDB and Go Test
+    name: Go Tests with MongoDB
     runs-on: ubuntu-latest
 
     steps:
