@@ -45,7 +45,7 @@ func Upload(c echo.Context) error {
 		Data:         parsedCSV,
 	}
 
-	err = dbs.DB.ArchiveDao().Create(&archive)
+	_, err = dbs.DB.ArchiveDao().Create(&archive)
 	if err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error saving record", err)
 	}
