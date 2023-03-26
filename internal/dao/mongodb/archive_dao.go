@@ -3,6 +3,7 @@ package mongodb
 import (
 	"dime/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -14,13 +15,34 @@ func NewArchive(client *mongo.Client) Archive {
 	return Archive{client: client}
 }
 
-func (m Archive) Create(archive *models.Archive) error {
+func (m Archive) Create(archive *models.Archive) (string, error) {
 
 	// the ID is set by the database
 	archive.ID = ""
 
 	collections := m.client.Database("dime").Collection("archive")
-	_, err := collections.InsertOne(nil, archive)
+	result, err := collections.InsertOne(nil, archive)
+	if err != nil {
+		return "", err
+	}
+
+	id := result.InsertedID.(primitive.ObjectID).Hex()
+
+	return id, nil
+}
+
+func (m Archive) UpdateColumnMapping(id string, columnMapping *models.ColumnMapping) error {
+	collection := m.client.Database("dime").Collection("archive")
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+
+	filter := bson.D{{"_id", objectID}}
+	update := bson.D{{"$set", bson.D{{"column_mapping", columnMapping}}}}
+
+	_, err = collection.UpdateOne(nil, filter, update)
 	if err != nil {
 		return err
 	}
@@ -28,15 +50,20 @@ func (m Archive) Create(archive *models.Archive) error {
 	return nil
 }
 
-func (m Archive) UpdateColumnMapping(archive *models.Archive) error {
+func (m Archive) FindByID(id string) (*models.Archive, error) {
 	collection := m.client.Database("dime").Collection("archive")
 
-	update := bson.D{{"$set", bson.D{{"column_mapping", archive.ColumnMapping}}}}
-
-	_, err := collection.UpdateOne(nil, models.Archive{ID: archive.ID}, update)
+	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	filter := bson.D{{"_id", objectID}}
+	var archive models.Archive
+	err = collection.FindOne(nil, filter).Decode(&archive)
+	if err != nil {
+		return nil, err
+	}
+
+	return &archive, nil
 }
