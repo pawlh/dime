@@ -9,6 +9,8 @@ import (
 )
 
 func TestArchive_Create(t *testing.T) {
+	BeforeEach()
+
 	testArchive := models.Archive{
 		UploadDate:   time.Time{},
 		OriginalName: "",
@@ -27,6 +29,8 @@ func TestArchive_Create(t *testing.T) {
 }
 
 func TestArchive_UpdateColumnMapping(t *testing.T) {
+	BeforeEach()
+
 	testArchive := models.Archive{
 		UploadDate:   time.Time{},
 		OriginalName: "",
@@ -63,6 +67,7 @@ func TestArchive_UpdateColumnMapping(t *testing.T) {
 }
 
 func TestArchive_FindByID(t *testing.T) {
+	BeforeEach()
 
 	testdata := []map[string]string{
 		{"name": "Alice", "age": "28", "city": "New York"},
@@ -103,6 +108,8 @@ func TestArchive_FindByID(t *testing.T) {
 }
 
 func TestArchive_FindByID_UserDoesNotExist(t *testing.T) {
+	BeforeEach()
+
 	archiveDao := NewArchive(client)
 	archive, err := archiveDao.FindByID("6424aa3b36e5c2fdfed09d22")
 	if err != nil {
@@ -117,6 +124,8 @@ func TestArchive_FindByID_UserDoesNotExist(t *testing.T) {
 }
 
 func TestArchive_FindByOwner(t *testing.T) {
+	BeforeEach()
+
 	testdata := []map[string]string{
 		{"name": "Alice", "age": "28", "city": "New York"},
 		{"name": "Bob", "age": "35", "city": "San Francisco"},

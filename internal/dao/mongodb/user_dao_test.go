@@ -7,6 +7,8 @@ import (
 )
 
 func TestUserDao_Create_Find(t *testing.T) {
+	BeforeEach()
+
 	testUser := models.User{
 		Username: "testUsername",
 		Password: "testPassword",
@@ -27,6 +29,8 @@ func TestUserDao_Create_Find(t *testing.T) {
 }
 
 func TestUserDoesNotExist(t *testing.T) {
+	BeforeEach()
+
 	userDao := NewUser(client)
 	if match, err := userDao.FindByUsername("nonexistent"); err != nil {
 		t.Errorf("Error finding user: %v", err)

@@ -1,11 +1,9 @@
 package mongodb
 
 import (
-	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
-	"testing"
 )
 
 var client *mongo.Client
@@ -24,20 +22,12 @@ func newClient() (*mongo.Client, error) {
 	return client, nil
 }
 
-func TestMain(m *testing.M) {
+func BeforeEach() {
 	var err error
 	client, err = newClient()
 	if err != nil {
-		panic(err)
+		log.Fatalf("Error creating client: %v", err)
 	}
-	defer func(client *mongo.Client, ctx context.Context) {
-		err := client.Disconnect(ctx)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(client, nil)
-
-	m.Run()
 
 	err = client.Database("dime").Drop(nil)
 	if err != nil {
