@@ -62,6 +62,9 @@ func (m Archive) FindByID(id string) (*models.Archive, error) {
 	var archive models.Archive
 	err = collection.FindOne(nil, filter).Decode(&archive)
 	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, nil
+		}
 		return nil, err
 	}
 
