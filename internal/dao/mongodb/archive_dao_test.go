@@ -71,7 +71,8 @@ func TestArchive_FindByID(t *testing.T) {
 
 	testArchive := models.Archive{
 		UploadDate:   time.Time{},
-		OriginalName: "",
+		OriginalName: "testOriginalName",
+		Owner:        "testOwner",
 		Data:         testdata,
 	}
 
