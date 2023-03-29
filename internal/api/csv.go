@@ -42,6 +42,7 @@ func Upload(c echo.Context) error {
 	archive := models.Archive{
 		UploadDate:   uploadDate,
 		OriginalName: formFile.Filename,
+		Owner:        c.Get("username").(string),
 		Data:         parsedCSV,
 	}
 
