@@ -100,3 +100,55 @@ func TestArchive_FindByID(t *testing.T) {
 		t.Errorf("Data does not match. Expected: %v, Actual: %v", testArchive.Data, matchedArchive.Data)
 	}
 }
+
+func TestArchive_FindByOwner(t *testing.T) {
+	testdata := []map[string]string{
+		{"name": "Alice", "age": "28", "city": "New York"},
+		{"name": "Bob", "age": "35", "city": "San Francisco"},
+		{"name": "Charlie", "age": "42", "city": "London"},
+	}
+
+	testArchive1 := models.Archive{
+		UploadDate:   time.Time{},
+		OriginalName: "testOriginalName",
+		Owner:        "differentOwner",
+		Data:         testdata,
+	}
+
+	testArchive2 := models.Archive{
+		UploadDate:   time.Time{},
+		OriginalName: "testOriginalName",
+		Owner:        "testOwner",
+		Data:         testdata,
+	}
+
+	testArchive3 := models.Archive{
+		UploadDate:   time.Time{},
+		OriginalName: "testOriginalName",
+		Owner:        "testOwner",
+		Data:         testdata,
+	}
+
+	archiveDao := NewArchive(client)
+	_, err := archiveDao.Create(&testArchive1)
+	if err != nil {
+		t.Errorf("Error creating testArchive1: %v", err)
+	}
+	_, err = archiveDao.Create(&testArchive2)
+	if err != nil {
+		t.Errorf("Error creating testArchive2: %v", err)
+	}
+	_, err = archiveDao.Create(&testArchive3)
+	if err != nil {
+		t.Errorf("Error creating testArchive3: %v", err)
+	}
+
+	archives, err := archiveDao.FindByOwner("testOwner")
+	if err != nil {
+		t.Errorf("Error retrieving archives: %v", err)
+	}
+
+	if len(archives) != 2 {
+		t.Errorf("Expected 2 archives, got %v", len(archives))
+	}
+}

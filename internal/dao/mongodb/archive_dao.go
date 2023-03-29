@@ -67,3 +67,26 @@ func (m Archive) FindByID(id string) (*models.Archive, error) {
 
 	return &archive, nil
 }
+
+func (m Archive) FindByOwner(owner string) ([]*models.Archive, error) {
+	collection := m.client.Database("dime").Collection("archive")
+
+	filter := bson.D{{"owner", owner}}
+	var archives []*models.Archive
+	cursor, err := collection.Find(nil, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	for cursor.Next(nil) {
+		var archive models.Archive
+		err = cursor.Decode(&archive)
+		if err != nil {
+			return nil, err
+		}
+
+		archives = append(archives, &archive)
+	}
+
+	return archives, nil
+}
