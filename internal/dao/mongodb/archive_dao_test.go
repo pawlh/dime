@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"dime/internal/models"
+	"go.mongodb.org/mongo-driver/mongo"
 	"reflect"
 	"testing"
 	"time"
@@ -98,6 +99,20 @@ func TestArchive_FindByID(t *testing.T) {
 
 	if reflect.DeepEqual(matchedArchive.Data, testArchive.Data) == false {
 		t.Errorf("Data does not match. Expected: %v, Actual: %v", testArchive.Data, matchedArchive.Data)
+	}
+}
+
+func TestArchive_FindByID_UserDoesNotExist(t *testing.T) {
+	archiveDao := NewArchive(client)
+	archive, err := archiveDao.FindByID("6424aa3b36e5c2fdfed09d22")
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			t.Errorf("Expected error to be nil, got %v", err)
+		}
+		t.Errorf("Error retrieving archive: %v", err)
+	}
+	if archive != nil {
+		t.Errorf("Expected nil archive, got %v", archive)
 	}
 }
 
