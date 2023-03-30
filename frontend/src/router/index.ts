@@ -15,37 +15,58 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: Transactions
-        },
-        {
-            path: '/budgets',
-            name: 'budgets',
-            component: Budgets
-        },
-        {
-            path: '/reports',
-            name: 'reports',
-            component: Reports
-        },
-        {
-            path: '/tools',
-            component: Tools,
-            name: 'tools',
-            redirect: '/tools/import',
+            component: Home,
+            redirect: '/transactions',
             children: [
                 {
-                    path: 'import',
-                    name: 'import',
-                    component: Import
+                    path: '/transactions',
+                    name: 'transactions',
+                    component: Transactions
                 },
                 {
-                    path: 'accounts',
-                    name: 'accounts',
-                    component: Accounts
+                    path: '/budgets',
+                    name: 'budgets',
+                    component: Budgets
+                },
+                {
+                    path: '/reports',
+                    name: 'reports',
+                    component: Reports
+                },
+                {
+                    path: '/tools',
+                    component: Tools,
+                    name: 'tools',
+                    redirect: '/tools/import',
+                    children: [
+                        {
+                            path: 'import',
+                            name: 'import',
+                            component: Import
+                        },
+                        {
+                            path: 'accounts',
+                            name: 'accounts',
+                            component: Accounts
+                        }
+                    ]
                 }
             ]
-        }
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
+        },
     ]
+})
+
+router.beforeEach((to, from) => {
+    const stateStore = useStateStore()
+    if (!stateStore.loggedIn && to.name !== 'login') {
+        console.log('nope!')
+        return {name: 'login'}
+    }
 })
 
 export default router
