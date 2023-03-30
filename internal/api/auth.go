@@ -24,6 +24,10 @@ func Login(c echo.Context) error {
 	var user models.User
 
 	if err := c.Bind(&user); err != nil {
+		return mustSendError(c, http.StatusBadRequest, "malformed request", nil)
+	}
+
+	if user.Username == "" || user.Password == "" {
 		return mustSendError(c, http.StatusBadRequest, "missing username and/or password", nil)
 	}
 
