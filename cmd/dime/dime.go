@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	err := dbs.InitMongoDB()
+	err := dbs.InitMongoDB("mongodb://localhost:27017")
 	if err != nil {
 		log.Fatal(err)
 	}

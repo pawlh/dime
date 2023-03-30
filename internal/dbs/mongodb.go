@@ -25,8 +25,8 @@ func (m MongoDB) ArchiveDao() dao.ArchiveDao {
 	return mongodb.NewArchive(m.client)
 }
 
-func InitMongoDB() error {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+func InitMongoDB(url string) error {
+	client, err := mongo.NewClient(options.Client().ApplyURI(url))
 	if err != nil {
 		return err
 	}
