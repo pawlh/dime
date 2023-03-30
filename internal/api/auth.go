@@ -57,7 +57,8 @@ func Login(c echo.Context) error {
 	c.SetCookie(cookie)
 
 	if err = c.JSON(http.StatusOK, echo.Map{
-		"token": token,
+		"username": user.Username,
+		"name":     user.Name,
 	}); err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error sending token", nil)
 	}
