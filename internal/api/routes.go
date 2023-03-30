@@ -3,9 +3,14 @@ package api
 import (
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func RegisterRoutes(e *echo.Echo) {
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 
 	apiGroup := e.Group("/api")
 	apiGroup.POST("/login", Login)
