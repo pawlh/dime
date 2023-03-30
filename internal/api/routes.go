@@ -14,5 +14,8 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.Use(echojwt.JWT(secret))
 	apiGroup.Use(validateToken)
 
-	apiGroup.POST("/import", Upload)
+	apiGroup.POST("/upload", Upload)
+	apiGroup.GET("/archive", GetArchives)
+	apiGroup.GET("/archive/:id", GetArchive)
+
 }
