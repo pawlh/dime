@@ -1,11 +1,10 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
 
-export const useStateStore = defineStore('counter', () => {
+export const useStateStore = defineStore('user', () => {
     const loggedIn = ref(false)
     const loggedInUser = ref({
-        firstName: '',
-        lastName: '',
+        name: '',
     })
 
     return {loggedIn, loggedInUser}
