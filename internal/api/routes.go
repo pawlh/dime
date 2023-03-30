@@ -23,4 +23,6 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.GET("/archive", GetArchives)
 	apiGroup.GET("/archive/:id", GetArchive)
 
+	e.Static("/", "frontend/dist")
+
 }
