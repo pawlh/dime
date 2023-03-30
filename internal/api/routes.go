@@ -16,7 +16,10 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.POST("/login", Login)
 	apiGroup.POST("/register", Register)
 
-	apiGroup.Use(echojwt.JWT(secret))
+	apiGroup.Use(echojwt.WithConfig(echojwt.Config{
+		TokenLookup: "cookie:token",
+		SigningKey:  secret,
+	}))
 	apiGroup.Use(validateToken)
 
 	apiGroup.POST("/upload", Upload)
