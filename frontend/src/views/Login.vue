@@ -1,16 +1,47 @@
 <script setup>
 import {useRouter} from "vue-router";
 import {useStateStore} from "@/store/state";
+import {SERVER_URL} from "@/store/app";
+import {ref} from "vue";
 
 const stateStore = useStateStore();
 
 const router = useRouter();
-const login = () => {
-  stateStore.loggedInUser.firstName = "John";
-  stateStore.loggedInUser.lastName = "Smith";
-  stateStore.loggedIn = true;
-  // router.push({name: 'home'});
-};
+
+const username = ref('')
+const password = ref('')
+
+const error = ref('')
+
+const login = async () => {
+    try {
+        const res = await fetch(SERVER_URL + "/api/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username.value,
+                password: password.value
+            })
+        })
+
+        if (res.status === 200) {
+            const data = await res.json()
+            error.value = ''
+            stateStore.loggedInUser.name = data.name;
+            stateStore.loggedIn = true;
+            await router.push({name: 'home'});
+        } else if (res.status === 401) {
+            error.value = "Invalid username or password"
+        } else {
+            error.value = "Unknown error occurred"
+            console.error(await res.text())
+        }
+    } catch (e) {
+        console.log(`Something went wrong: ${e}`)
+    }
+}
 </script>
 
 <template>
@@ -18,12 +49,26 @@ const login = () => {
     <h1 class="login-heading">Login</h1>
     <form class="login-form">
       <label for="username" class="login-label">Username</label>
-      <input type="text" id="username" class="login-input" placeholder="Enter your username"/>
+      <input type="text"
+             v-model="username"
+             id="username"
+             class="login-input"
+             placeholder="Enter your username"
+             :class="{ 'border-red': username === '' }"/>
 
       <label for="password" class="login-label">Password</label>
-      <input type="password" id="password" class="login-input" placeholder="Enter your password"/>
+      <input type="password"
+             v-model="password"
+             id="password"
+             class="login-input"
+             placeholder="Enter your password"
+             :class="{ 'border-red': password === '' }"/>
 
-      <button class="login-button" @click="login">Login</button>
+      <button
+              class="login-button"
+              @click.prevent="login"
+              :disabled="username === '' || password === ''">Login</button>
+        <p v-if="error" class="error-message">{{error}}</p>
     </form>
   </div>
 </template>
@@ -82,5 +127,19 @@ const login = () => {
 
 .login-button:hover {
   background-color: #3e8e41;
+}
+
+.login-button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+    margin-top: 1rem;
+  color: red;
+}
+
+.border-red {
+    border: 1px solid red;
 }
 </style>
