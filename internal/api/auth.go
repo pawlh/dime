@@ -46,6 +46,16 @@ func Login(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "error signing token", nil)
 	}
 
+	cookie := new(http.Cookie)
+	cookie.Name = "token"
+	cookie.Value = token
+	cookie.Expires = time.Now().Add(4 * time.Hour)
+	cookie.HttpOnly = true
+	cookie.SameSite = http.SameSiteLaxMode
+	cookie.Secure = false
+
+	c.SetCookie(cookie)
+
 	if err = c.JSON(http.StatusOK, echo.Map{
 		"token": token,
 	}); err != nil {
