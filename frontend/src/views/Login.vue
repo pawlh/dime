@@ -45,98 +45,99 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="login-container">
-    <h1 class="login-heading">Login</h1>
-    <form class="login-form">
-      <label for="username" class="login-label">Username</label>
-      <input type="text"
-             v-model="username"
-             id="username"
-             class="login-input"
-             placeholder="Enter your username"
-             :class="{ 'border-red': username === '' }"/>
+    <div class="login-container">
+        <h1 class="login-heading">Login</h1>
+        <form class="login-form">
+            <label for="username" class="login-label">Username</label>
+            <input type="text"
+                   v-model="username"
+                   id="username"
+                   class="login-input"
+                   placeholder="Enter your username"
+                   :class="{ 'border-red': username === '' }"/>
 
-      <label for="password" class="login-label">Password</label>
-      <input type="password"
-             v-model="password"
-             id="password"
-             class="login-input"
-             placeholder="Enter your password"
-             :class="{ 'border-red': password === '' }"/>
+            <label for="password" class="login-label">Password</label>
+            <input type="password"
+                   v-model="password"
+                   id="password"
+                   class="login-input"
+                   placeholder="Enter your password"
+                   :class="{ 'border-red': password === '' }"/>
 
-      <button
-              class="login-button"
-              @click.prevent="login"
-              :disabled="username === '' || password === ''">Login</button>
-        <p v-if="error" class="error-message">{{error}}</p>
-    </form>
-  </div>
+            <button
+                    class="login-button"
+                    @click.prevent="login"
+                    :disabled="username === '' || password === ''">Login
+            </button>
+            <p v-if="error" class="error-message">{{ error }}</p>
+        </form>
+    </div>
 </template>
 
 <style>
 .login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: var(--color-background);
-  color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
 .login-heading {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--color-background-soft);
-  padding: 3rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-background-soft);
+    padding: 3rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .login-label {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
 }
 
 .login-input {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 0.2rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .login-button {
-  padding: 0.5rem 1rem;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 0.2rem;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.2rem;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .login-button:hover {
-  background-color: #3e8e41;
+    background-color: #3e8e41;
 }
 
 .login-button[disabled] {
-  background-color: #ccc;
-  cursor: not-allowed;
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 .error-message {
     margin-top: 1rem;
-  color: red;
+    color: red;
 }
 
 .border-red {
