@@ -125,11 +125,20 @@ func validateToken(next echo.HandlerFunc) echo.HandlerFunc {
 			return mustSendError(c, http.StatusUnauthorized, "bad token", nil)
 		}
 
-		if !claims.VerifyExpiresAt(time.Now().Add(time.Hour).Unix(), true) {
+		if !claims.VerifyExpiresAt(time.Now().Unix(), true) {
 			return mustSendError(c, http.StatusUnauthorized, "token expired", nil)
 		}
 
 		c.Set("username", claims["usr"])
+
+		// If the token is about to expire, generate a new one
+		if claims.VerifyExpiresAt(time.Now().Add(time.Hour*2).Unix(), true) {
+			newToken, _ := generateToken(models.User{
+				Username: claims["usr"].(string),
+				Name:     claims["nme"].(string),
+			})
+			c.SetCookie(generateCookie(newToken))
+		}
 
 		return next(c)
 	}
