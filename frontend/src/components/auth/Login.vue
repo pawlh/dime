@@ -45,8 +45,7 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="login-container">
-        <h1 class="login-heading">Login</h1>
+
         <form class="login-form">
             <label for="username" class="login-label">Username</label>
             <input type="text"
@@ -71,25 +70,11 @@ const login = async () => {
             </button>
             <p v-if="error" class="error-message">{{ error }}</p>
         </form>
-    </div>
+
 </template>
 
 <style>
-.login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: var(--color-background);
-    color: var(--color-text);
-}
 
-.login-heading {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-}
 
 .login-form {
     display: flex;
