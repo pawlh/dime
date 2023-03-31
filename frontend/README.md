@@ -1,6 +1,6 @@
-# unero-frontend
+# Dime
 
-This is the frontend of a person budgeting web application.
+This is the frontend of a personal budgeting web application.
 
 Roadmap:
 

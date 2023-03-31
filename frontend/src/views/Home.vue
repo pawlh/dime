@@ -11,7 +11,7 @@ import router from "@/router";
 <template>
     <div id="app-container">
         <nav>
-            <h1 class="app-title">Unero</h1>
+            <h1 class="app-title">Dime</h1>
             <hr/>
             <Navigation class="navigation"/>
             <hr/>
