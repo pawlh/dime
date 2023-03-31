@@ -6,8 +6,10 @@ import Tools from "@/views/Tools.vue";
 import Import from "@/views/tools/Import.vue";
 import Accounts from "@/views/tools/Accounts.vue";
 import {useStateStore} from "@/store/state";
-import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
+import Register from "@/components/auth/Register.vue";
+import Login from "@/components/auth/Login.vue";
+import Authenticate from "@/views/Authenticate.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +58,20 @@ const router = createRouter({
         {
             path: '/login',
             name: 'login',
-            component: Login
+            component: Authenticate,
+            redirect: '/login',
+            children: [
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: Login
+                },
+                {
+                    path: '/register',
+                    name: 'register',
+                    component: Register
+                }
+            ]
         },
     ]
 })
