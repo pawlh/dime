@@ -61,7 +61,7 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
     const stateStore = useStateStore()
     if (!stateStore.loggedIn && to.name !== 'login') {
         console.log('nope!')
