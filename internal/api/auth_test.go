@@ -146,8 +146,13 @@ func TestRegister(t *testing.T) {
 				t.Fatalf("expected status code %d, got %d with message \"%s\"", tt.expectedCode, res.Code, resBody["error"])
 			}
 
-			if tt.expectedCode == http.StatusOK && resBody["token"] == "" {
-				t.Fatal("expected token, got empty string")
+			if tt.expectedCode == http.StatusOK {
+				if username, _ := resBody["username"]; username != tt.body.Username {
+					t.Fatal("username not found in response")
+				}
+				if name, _ := resBody["name"]; name != tt.body.Name {
+					t.Fatal("name not found in response")
+				}
 			}
 
 		})

@@ -46,15 +46,7 @@ func Login(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "error signing token", nil)
 	}
 
-	cookie := new(http.Cookie)
-	cookie.Name = "token"
-	cookie.Value = token
-	cookie.Expires = time.Now().Add(4 * time.Hour)
-	cookie.HttpOnly = true
-	cookie.SameSite = http.SameSiteLaxMode
-	cookie.Secure = false
-
-	c.SetCookie(cookie)
+	c.SetCookie(generateCookie(token))
 
 	if err = c.JSON(http.StatusOK, echo.Map{
 		"username": user.Username,
@@ -90,12 +82,16 @@ func Register(c echo.Context) error {
 	}
 
 	token, err := generateToken(user)
+
+	c.SetCookie(generateCookie(token))
+
 	if err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error generating token", err)
 	}
 
 	if err := c.JSON(http.StatusOK, echo.Map{
-		"token": token,
+		"username": user.Username,
+		"name":     user.Name,
 	}); err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error sending message", err)
 	}
@@ -137,4 +133,16 @@ func validateToken(next echo.HandlerFunc) echo.HandlerFunc {
 
 		return next(c)
 	}
+}
+
+func generateCookie(token string) *http.Cookie {
+	cookie := new(http.Cookie)
+	cookie.Name = "token"
+	cookie.Value = token
+	cookie.Expires = time.Now().Add(4 * time.Hour)
+	cookie.HttpOnly = true
+	cookie.SameSite = http.SameSiteLaxMode
+	cookie.Secure = false
+
+	return cookie
 }
