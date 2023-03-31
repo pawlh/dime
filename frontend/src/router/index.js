@@ -56,8 +56,8 @@ const router = createRouter({
             ]
         },
         {
-            path: '/login',
-            name: 'login',
+            path: '/auth',
+            name: 'auth',
             component: Authenticate,
             redirect: '/login',
             children: [
@@ -78,7 +78,9 @@ const router = createRouter({
 
 router.beforeEach((to) => {
     const stateStore = useStateStore()
-    if (!stateStore.loggedIn && to.name !== 'login') {
+
+    // If the user is not logged in and is not headed to the login or register page, redirect to login
+    if (!stateStore.loggedIn && !['login', 'register'].includes(to.name)) {
         console.log('nope!')
         return {name: 'login'}
     }
