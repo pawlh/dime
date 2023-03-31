@@ -45,31 +45,30 @@ const login = async () => {
 </script>
 
 <template>
+    <form class="login-form">
+        <label for="username" class="login-label">Username</label>
+        <input type="text"
+               v-model="username"
+               id="username"
+               class="login-input"
+               placeholder="Enter your username"
+               :class="{ 'border-red': username === '' }"/>
 
-        <form class="login-form">
-            <label for="username" class="login-label">Username</label>
-            <input type="text"
-                   v-model="username"
-                   id="username"
-                   class="login-input"
-                   placeholder="Enter your username"
-                   :class="{ 'border-red': username === '' }"/>
+        <label for="password" class="login-label">Password</label>
+        <input type="password"
+               v-model="password"
+               id="password"
+               class="login-input"
+               placeholder="Enter your password"
+               :class="{ 'border-red': password === '' }"/>
 
-            <label for="password" class="login-label">Password</label>
-            <input type="password"
-                   v-model="password"
-                   id="password"
-                   class="login-input"
-                   placeholder="Enter your password"
-                   :class="{ 'border-red': password === '' }"/>
-
-            <button
-                    class="login-button"
-                    @click.prevent="login"
-                    :disabled="username === '' || password === ''">Login
-            </button>
-            <p v-if="error" class="error-message">{{ error }}</p>
-        </form>
+        <button
+                class="login-button"
+                @click.prevent="login"
+                :disabled="username === '' || password === ''">Login
+        </button>
+        <p v-if="error" class="error-message">{{ error }}</p>
+    </form>
 
 </template>
 
