@@ -1,13 +1,9 @@
 <script setup>
 import {ref} from "vue";
 import {useRouter} from "vue-router";
-const error = ref('')
 
 const router = useRouter()
 
-function updateErrorMessage(message) {
-    error.value = message
-}
 
 </script>
 
@@ -16,8 +12,7 @@ function updateErrorMessage(message) {
         <h1 class="login-heading">
             {{ router.currentRoute.value.name === 'login' ? 'Login' : 'Register' }}
         </h1>
-        <router-view @updateErrorMessage="updateErrorMessage"></router-view>
-        <p v-if="error" class="error-message">{{ error }}</p>
+        <router-view></router-view>
     </div>
 </template>
 
