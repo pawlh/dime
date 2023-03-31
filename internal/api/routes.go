@@ -27,7 +27,12 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.GET("/archive/:id", GetArchive)
 
 	e.Static("/", "frontend/dist")
-	//forward everything else to frontend/dist/index.html
-	e.File("/*", "frontend/dist/index.html")
+
+	e.HTTPErrorHandler = func(err error, c echo.Context) {
+		defaultPage := "frontend/dist/index.html"
+		if err := c.File(defaultPage); err != nil {
+			c.Logger().Error(err)
+		}
+	}
 
 }
