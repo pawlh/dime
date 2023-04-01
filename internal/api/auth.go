@@ -31,7 +31,8 @@ func Login(c echo.Context) error {
 		return mustSendError(c, http.StatusBadRequest, "missing username and/or password", nil)
 	}
 
-	if match, err := dbs.DB.UserDao().FindByUsername(user.Username); err != nil {
+	match, err := dbs.DB.UserDao().FindByUsername(user.Username)
+	if err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error finding user", nil)
 	} else if match == nil || match.Password != user.Password {
 		return mustSendError(c, http.StatusUnauthorized, "bad credentials", nil)
@@ -49,8 +50,8 @@ func Login(c echo.Context) error {
 	c.SetCookie(generateCookie(token))
 
 	if err = c.JSON(http.StatusOK, echo.Map{
-		"username": user.Username,
-		"name":     user.Name,
+		"username": match.Username,
+		"name":     match.Name,
 	}); err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error sending token", nil)
 	}
