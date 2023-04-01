@@ -1,8 +1,5 @@
 <script setup>
-import {useRouter} from "vue-router";
 import {useStateStore} from "@/store/state";
-import {SERVER_URL} from "@/store/app";
-import {ref} from "vue";
 
 const stateStore = useStateStore();
 
