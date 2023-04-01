@@ -16,7 +16,7 @@ const stateStore = useStateStore();
   <div>
     <font-awesome-icon class="profileImage" icon="fa-user"/>
     <div class="info">
-      <h2>{{ stateStore.loggedInUser.firstName }} {{ stateStore.loggedInUser.lastName }}</h2>
+      <h2>{{ stateStore.loggedInUser.name }}</h2>
       <ul>
         <!--        <li>-->
         <!--          <a href="#">Settings</a>-->
