@@ -4,11 +4,11 @@ import {useStateStore} from "@/store/state";
 
 const stateStore = useStateStore();
 
-const logout = () => {
-  stateStore.loggedInUser.firstName = "";
-  stateStore.loggedInUser.lastName = "";
-  stateStore.loggedIn = false;
-};
+// const logout = () => {
+//   stateStore.loggedInUser.firstName = "";
+//   stateStore.loggedInUser.lastName = "";
+//   stateStore.loggedIn = false;
+// };
 
 </script>
 
@@ -22,7 +22,7 @@ const logout = () => {
         <!--          <a href="#">Settings</a>-->
         <!--        </li>-->
         <li>
-          <a @click="logout">Logout</a>
+            <router-link to="/logout">Logout</router-link>
         </li>
       </ul>
     </div>
