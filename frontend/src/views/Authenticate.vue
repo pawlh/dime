@@ -9,7 +9,7 @@ const router = useRouter()
 <template>
     <div class="auth-container">
         <h1 class="login-heading">
-            {{ router.currentRoute.value.name === 'login' ? 'Login' : 'Register' }}
+            {{ router.currentRoute.value.name }}
         </h1>
         <router-view></router-view>
     </div>
@@ -30,5 +30,8 @@ const router = useRouter()
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 2rem;
+}
+.login-heading::first-letter {
+    text-transform: capitalize;
 }
 </style>

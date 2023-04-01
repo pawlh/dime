@@ -10,6 +10,7 @@ import Home from "@/views/Home.vue";
 import Register from "@/components/auth/Register.vue";
 import Login from "@/components/auth/Login.vue";
 import Authenticate from "@/views/Authenticate.vue";
+import Logout from "@/components/auth/Logout.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,6 +71,11 @@ const router = createRouter({
                     path: '/register',
                     name: 'register',
                     component: Register
+                },
+                {
+                    path: '/logout',
+                    name: 'logout',
+                    component: Logout
                 }
             ]
         },
@@ -80,7 +86,7 @@ router.beforeEach((to) => {
     const stateStore = useStateStore()
 
     // If the user is not logged in and is not headed to the login or register page, redirect to login
-    if (!stateStore.loggedIn && !['login', 'register'].includes(to.name)) {
+    if (!stateStore.loggedIn && !['login', 'register', 'logout'].includes(to.name)) {
         console.log('nope!')
         return {name: 'login'}
     }
