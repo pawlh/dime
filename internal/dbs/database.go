@@ -3,7 +3,7 @@ package dbs
 import "dime/internal/dao"
 
 type Database interface {
-	TransactionDao() dao.TransactionDao
+	TransactionDao() dao.TransactionsDao
 	UserDao() dao.UserDAO
 	ArchiveDao() dao.ArchiveDao
 }

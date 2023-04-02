@@ -17,7 +17,7 @@ func (m MongoDB) UserDao() dao.UserDAO {
 	return mongodb.NewUser(m.client)
 }
 
-func (m MongoDB) TransactionDao() dao.TransactionDao {
+func (m MongoDB) TransactionDao() dao.TransactionsDao {
 	return nil
 }
 
