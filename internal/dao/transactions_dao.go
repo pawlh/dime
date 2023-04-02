@@ -6,4 +6,5 @@ import (
 
 type TransactionsDao interface {
 	Insert(transactions *models.Transactions) error
+	FindByOwner(owner string) (*models.Transactions, error)
 }
