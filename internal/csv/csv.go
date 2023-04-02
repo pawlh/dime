@@ -33,3 +33,14 @@ func Parse(buf *bytes.Buffer) ([]map[string]string, error) {
 
 	return data, nil
 }
+
+func RenameColumns(data []map[string]string, columnMapping map[string]string) []map[string]string {
+	for i, row := range data {
+		for oldName, newName := range columnMapping {
+			data[i][newName] = row[oldName]
+			delete(data[i], oldName)
+		}
+	}
+
+	return data
+}
