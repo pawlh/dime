@@ -8,7 +8,7 @@ package models
 // Category    string
 // Account     string
 type Transactions struct {
-	Transactions []map[string]interface{} `bson:"transactions"`
-	Owner        string                   `bson:"owner"`
-	Columns      []string                 `bson:"columns"`
+	Transactions []map[string]any `bson:"transactions"`
+	Owner        string           `bson:"owner"`
+	Columns      []string         `bson:"columns"`
 }
