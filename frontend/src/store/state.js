@@ -7,7 +7,9 @@ export const useStateStore = defineStore('user', () => {
         name: '',
     })
 
-    return {loggedIn, loggedInUser}
+    const transactions = ref([])
+
+    return {loggedIn, loggedInUser, transactions}
 })
 
 // load store values from localStorage
