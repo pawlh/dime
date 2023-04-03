@@ -12,5 +12,6 @@ func mustSendError(c echo.Context, code int, error string, originalErr error) er
 		log.Error(originalErr)
 		return err
 	}
+	log.Error(originalErr)
 	return nil
 }
