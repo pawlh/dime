@@ -12,3 +12,12 @@ type Transactions struct {
 	Owner        string           `bson:"owner"`
 	Columns      []string         `bson:"columns"`
 }
+
+var RequiredColumns = map[string]string{
+	"id":          "string",
+	"date":        "date",
+	"description": "string",
+	"amount":      "float",
+	"category":    "string",
+	"account":     "string",
+}
