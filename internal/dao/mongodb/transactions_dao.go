@@ -2,10 +2,8 @@ package mongodb
 
 import (
 	"dime/internal/models"
-	"errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"reflect"
 )
 
 type Transactions struct {
@@ -18,7 +16,6 @@ func NewTransactions(client *mongo.Client) Transactions {
 
 func (m Transactions) Insert(transaction *models.Transactions) error {
 	// if a transaction with the same Owner already exists, just add the transactions to the existing one
-	// if the columns in the new transaction are different from the existing one, return an error
 	collection := m.client.Database("dime").Collection("transactions")
 
 	var existingTransactions models.Transactions
@@ -36,21 +33,17 @@ func (m Transactions) Insert(transaction *models.Transactions) error {
 		return err
 	}
 
-	// check if the submitted columns match the existing columns
-	if reflect.DeepEqual(existingTransactions.Columns, transaction.Columns) {
-		// the columns are the same, so add the new transactions to the existing one
-		filter := bson.D{{"owner", transaction.Owner}}
-		update := bson.D{{"$push", bson.D{{"transactions", bson.D{{"$each", transaction.Transactions}}}}}}
+	// existing transaction found, so update it
 
-		_, err := collection.UpdateOne(nil, filter, update)
-		if err != nil {
-			return err
-		}
+	filter = bson.D{{"owner", transaction.Owner}}
+	update := bson.D{{"$push", bson.D{{"transactions", bson.D{{"$each", transaction.Transactions}}}}}}
 
-		return nil
-	} else {
-		return errors.New("the submitted columns do not match the existing columns")
+	_, err = collection.UpdateOne(nil, filter, update)
+	if err != nil {
+		return err
 	}
+
+	return nil
 
 }
 
