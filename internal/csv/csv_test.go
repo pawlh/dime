@@ -7,6 +7,7 @@ import (
 )
 
 func TestRenameColumns(t *testing.T) {
+
 	original := []map[string]any{
 		{
 			"dAtE": time.Now(),
@@ -34,7 +35,10 @@ func TestRenameColumns(t *testing.T) {
 		},
 	}
 
-	actual := RenameColumns(original, columnMapping)
+	actual, err := RenameColumns(original, columnMapping)
+	if err != nil {
+		t.Errorf("Error returned: %v", err)
+	}
 
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("RenameColumns() = %v, want %v", actual, expected)
@@ -56,22 +60,24 @@ func TestAdaptRequiredFields(t *testing.T) {
 			args: args{
 				data: []map[string]any{
 					{
-						"Date":        "2020-01-01",
-						"Description": "test",
-						"Amount":      "1.00",
-						"Category":    "test",
-						"Account":     "test",
+						"id":          "1",
+						"date":        "2020-01-01",
+						"description": "test",
+						"amount":      "1.00",
+						"category":    "test",
+						"account":     "test",
 					},
 				},
 				dateFormat: "2006-01-02",
 			},
 			expected: []map[string]any{
 				{
-					"Date":        mustParseTime("2020-01-01", "2006-01-02"),
-					"Description": "test",
-					"Amount":      1.00,
-					"Category":    "test",
-					"Account":     "test",
+					"id":          "1",
+					"date":        mustParseTime("2020-01-01", "2006-01-02"),
+					"description": "test",
+					"amount":      1.00,
+					"category":    "test",
+					"account":     "test",
 				},
 			},
 		},
@@ -94,11 +100,12 @@ func TestAdaptRequiredFields(t *testing.T) {
 			args: args{
 				data: []map[string]any{
 					{
-						"Date":        "202f0-c01-01ab",
-						"Description": "test",
-						"Amount":      "1.00",
-						"Category":    "test",
-						"Account":     "test",
+						"id":          "1",
+						"date":        "202f0-c01-01ab",
+						"description": "test",
+						"amount":      "1.00",
+						"category":    "test",
+						"account":     "test",
 					},
 				},
 				dateFormat: "2006-01-02",
@@ -110,11 +117,12 @@ func TestAdaptRequiredFields(t *testing.T) {
 			args: args{
 				data: []map[string]any{
 					{
-						"Date":        "2020-01-01",
-						"Description": "test",
-						"Amount":      "abc",
-						"Category":    "test",
-						"Account":     "test",
+						"id":          "1",
+						"date":        "2020-01-01",
+						"description": "test",
+						"amount":      "abc",
+						"category":    "test",
+						"account":     "test",
 					},
 				},
 				dateFormat: "2006-01-02",
@@ -126,11 +134,12 @@ func TestAdaptRequiredFields(t *testing.T) {
 			args: args{
 				data: []map[string]any{
 					{
-						"Date":        "2020-01-01",
-						"Description": "test",
-						"Amount":      "1.00",
-						"Category":    "test",
-						"Account":     "test",
+						"id":          "1",
+						"date":        "2020-01-01",
+						"description": "test",
+						"amount":      "1.00",
+						"category":    "test",
+						"account":     "test",
 					},
 				},
 				dateFormat: "a2006-0d1-02d",
@@ -142,7 +151,11 @@ func TestAdaptRequiredFields(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := AdaptRequiredFields(tt.args.data, tt.args.dateFormat); (err != nil) != (tt.expected == nil) {
-				t.Errorf("Error expected, but none was returned")
+				if tt.expected == nil {
+					t.Errorf("error expected, but none occurred")
+				} else {
+					t.Errorf("error with AdaptRequiredFields() = %v", err)
+				}
 			} else if tt.expected != nil {
 
 				if !reflect.DeepEqual(tt.args.data, tt.expected) {
