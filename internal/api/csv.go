@@ -54,35 +54,6 @@ func Upload(c echo.Context) error {
 	return nil
 }
 
-func GetArchive(c echo.Context) error {
-	id := c.Param("id")
-	if id == "" {
-		return mustSendError(c, http.StatusBadRequest, "missing id", nil)
-	}
-
-	archive, err := dbs.DB.ArchiveDao().FindByID(id)
-	if err != nil {
-		return mustSendError(c, http.StatusInternalServerError, "error getting archive", err)
-	}
-	if archive == nil {
-		return mustSendError(c, http.StatusNotFound, "archive not found", nil)
-	}
-	if archive.Owner != c.Get("username").(string) {
-		return mustSendError(c, http.StatusForbidden, "not authorized", nil)
-	}
-
-	return c.JSON(http.StatusOK, archive)
-}
-
-func GetArchives(c echo.Context) error {
-	archives, err := dbs.DB.ArchiveDao().FindByOwner(c.Get("username").(string))
-	if err != nil {
-		return mustSendError(c, http.StatusInternalServerError, "error getting archives", err)
-	}
-
-	return c.JSON(http.StatusOK, archives)
-}
-
 func fileToBuffer(file multipart.File) (*bytes.Buffer, error) {
 	buf := new(bytes.Buffer)
 	_, err := io.Copy(buf, file)
