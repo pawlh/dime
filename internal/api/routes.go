@@ -4,6 +4,7 @@ import (
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"net/http"
 )
 
 func RegisterRoutes(e *echo.Echo) {
@@ -29,10 +30,13 @@ func RegisterRoutes(e *echo.Echo) {
 	e.Static("/", "frontend/dist")
 
 	e.HTTPErrorHandler = func(err error, c echo.Context) {
-		defaultPage := "frontend/dist/index.html"
-		if err := c.File(defaultPage); err != nil {
-			c.Logger().Error(err)
+		if err.(*echo.HTTPError).Code == 401 {
+			_ = mustSendError(c, http.StatusUnauthorized, "missing or invalid JWT", err)
+		} else {
+			defaultPage := "frontend/dist/index.html"
+			if err = c.File(defaultPage); err != nil {
+				c.Logger().Error(err)
+			}
 		}
 	}
-
 }
