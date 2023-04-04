@@ -1,0 +1,3 @@
+id,date,description,amount,category,account
+abcdef,2021-03-14,desc1,256.23,auto,primary
+ghijkl,2022-05-01,desc2,12.63,dental,secondary
