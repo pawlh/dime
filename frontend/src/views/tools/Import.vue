@@ -17,9 +17,34 @@ function handleClick() {
     input.click();
 }
 
+// temporary, this will ultimately be replaced with a configurable modal
+const sampleMapping = {
+    "column_mapping": {
+        "id": "id",
+        "date": "date",
+        "description": "description",
+        "amount": "amount",
+        "category": "category",
+        "account": "account"
+    },
+    "date_format": "2006-01-02"
+}
 function handleFiles(files) {
     for (const file of files) {
-        alert('uploading ' + file.name);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("meta", JSON.stringify(sampleMapping));
+
+        fetch("/api/upload", {
+            method: "POST",
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                console.log("success")
+            } else {
+                console.log("failure")
+            }
+        })
     }
 }
 
