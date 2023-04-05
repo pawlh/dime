@@ -87,7 +87,6 @@ router.beforeEach((to) => {
 
     // If the user is not logged in and is not headed to the login, logout, or register pages, redirect to login
     if (!stateStore.loggedIn && !['login', 'register', 'logout'].includes(to.name)) {
-        console.log('nope!')
         return {name: 'login'}
     }
 })
