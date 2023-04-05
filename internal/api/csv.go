@@ -73,6 +73,8 @@ func Upload(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "error saving record", err)
 	}
 
+	BroadcastTransactions(c.Get("username").(string))
+
 	return nil
 }
 
