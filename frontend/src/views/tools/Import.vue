@@ -1,6 +1,7 @@
 <script setup>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import { Toaster, toast} from "vue-sonner";
+import {SERVER_URL} from "@/store/app";
 
 function handleDrop(event) {
     event.preventDefault();
@@ -36,8 +37,9 @@ async function handleFiles(files) {
         formData.append("file", file);
         formData.append("meta", JSON.stringify(sampleMapping));
 
-        const res = await fetch("/api/upload", {
+        const res = await fetch(SERVER_URL + "/api/upload", {
             method: "POST",
+            credentials: "include",
             body: formData
         })
 
