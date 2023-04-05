@@ -53,6 +53,7 @@ func TestTransactions_AppendToExisting(t *testing.T) {
 	testTransaction := models.Transactions{
 		Transactions: []map[string]any{
 			{
+				"id":          "testId1",
 				"testColumn1": "transaction1",
 				"testColumn2": int32(100),
 			},
@@ -68,6 +69,7 @@ func TestTransactions_AppendToExisting(t *testing.T) {
 	additionalTransactions := models.Transactions{
 		Transactions: []map[string]any{
 			{
+				"id":          "testId2",
 				"testColumn1": "transaction2",
 				"testColumn2": int32(200),
 			},
@@ -86,10 +88,12 @@ func TestTransactions_AppendToExisting(t *testing.T) {
 		expectedTransactions := models.Transactions{
 			Transactions: []map[string]any{
 				{
+					"id":          "testId1",
 					"testColumn1": "transaction1",
 					"testColumn2": int32(100),
 				},
 				{
+					"id":          "testId2",
 					"testColumn1": "transaction2",
 					"testColumn2": int32(200),
 				},
