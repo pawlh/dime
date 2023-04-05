@@ -6,6 +6,7 @@ const stateStore = useStateStore();
 // There is currently no backend support for deactivating JWTs, so temporarily just clear user from store
 stateStore.loggedIn = false;
 stateStore.loggedInUser.name = '';
+stateStore.transactions = [];
 
 
 </script>
