@@ -1,5 +1,6 @@
 <script setup>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import { Toaster, toast} from "vue-sonner";
 
 function handleDrop(event) {
     event.preventDefault();
@@ -29,28 +30,35 @@ const sampleMapping = {
     },
     "date_format": "2006-01-02"
 }
-function handleFiles(files) {
+async function handleFiles(files) {
     for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("meta", JSON.stringify(sampleMapping));
 
-        fetch("/api/upload", {
+        const res = await fetch("/api/upload", {
             method: "POST",
             body: formData
-        }).then(response => {
-            if (response.ok) {
-                console.log("success")
-            } else {
-                console.log("failure")
-            }
         })
+
+
+        if (res.ok) {
+            toast.success("Transaction import successful")
+        } else {
+            toast.error("Transaction import failed", {
+                description: `There was an error importing your transactions. Check the console for more details.`
+            })
+
+            const data = await res.json()
+            console.log(`Error uploading CSV: ${data.error}`)
+        }
     }
 }
 
 </script>
 
 <template>
+    <Toaster/>
     <div class="import">
         <h1>Import transactions from your bank</h1>
         <span class="demo-csv"><a href="/demo-transactions.csv">Download a demo csv</a></span>
