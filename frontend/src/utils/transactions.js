@@ -7,7 +7,11 @@ export const setupTransactionWS = () => {
     };
     ws.onmessage = (event) => {
         console.log("Received message from websocket");
-        // console.log(event.data);
+
+        // if (event.data === "ping") {
+        //     ws.send("pong")
+        //     return
+        // }
 
         const data = JSON.parse(event.data);
         if ('transactions' in data) {
