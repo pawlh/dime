@@ -24,6 +24,7 @@ func RegisterRoutes(e *echo.Echo) {
 	apiGroup.Use(validateToken)
 
 	apiGroup.POST("/upload", Upload)
+	apiGroup.GET("/transactions", GetTransactions)
 
 	e.Static("/", "frontend/dist")
 
