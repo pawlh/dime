@@ -8,9 +8,9 @@ package models
 // Category    string
 // Account     string
 type Transactions struct {
-	Transactions []map[string]any `bson:"transactions"`
-	Owner        string           `bson:"owner"`
-	Columns      []string         `bson:"columns"`
+	Transactions []map[string]any `bson:"transactions" json:"transactions"`
+	Owner        string           `bson:"owner" json:"owner"`
+	Columns      []string         `bson:"columns" json:"columns"`
 }
 
 var RequiredColumns = map[string]string{
