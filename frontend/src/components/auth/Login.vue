@@ -87,7 +87,7 @@ const login = async () => {
 
 </template>
 
-<style>
+<style scoped>
 
 
 .login-form {

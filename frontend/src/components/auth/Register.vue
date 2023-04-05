@@ -96,7 +96,7 @@ const register = async () => {
 
 </template>
 
-<style>
+<style scoped>
 
 
 .login-form {
