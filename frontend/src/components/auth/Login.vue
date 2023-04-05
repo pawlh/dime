@@ -76,7 +76,14 @@ const login = async () => {
                 :disabled="username === '' || password === ''">Login
         </button>
         <p v-if="error" class="error-message">{{ error }}</p>
+        <span>
+            Need an account?
+            <br/>
+            <router-link to="/register">Click here to register</router-link>
+        </span>
     </form>
+    <!--Add register link-->
+
 
 </template>
 
@@ -134,5 +141,17 @@ const login = async () => {
 
 .border-red {
     border: 1px solid red;
+}
+
+span {
+    padding-top: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+a {
+    color: var(--color-text);
+    font-weight: bold;
+    text-decoration: none;
 }
 </style>

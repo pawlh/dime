@@ -84,9 +84,14 @@ const register = async () => {
         <button
                 class="login-button"
                 @click.prevent="register"
-                :disabled="name === '' || username === '' || password === '' || (password !== password2)">Login
+                :disabled="name === '' || username === '' || password === '' || (password !== password2)">Register
         </button>
         <p v-if="error" class="error-message">{{ error }}</p>
+        <span>
+            Already registered?
+            <br/>
+            <router-link to="/login">Click here to login</router-link>
+        </span>
     </form>
 
 </template>
@@ -145,5 +150,17 @@ const register = async () => {
 
 .border-red {
     border: 1px solid red;
+}
+
+span {
+    padding-top: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+a {
+    color: var(--color-text);
+    font-weight: bold;
+    text-decoration: none;
 }
 </style>
