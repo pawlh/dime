@@ -10,7 +10,12 @@ import (
 func RegisterRoutes(e *echo.Echo) {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
+		AllowOrigins: []string{
+			"http://localhost:5173",
+			"http://localhost:1323",
+			"https://dime.pawl.app",
+		},
+		AllowCredentials: true,
 	}))
 
 	apiGroup := e.Group("/api")
