@@ -7,36 +7,43 @@ const route = useRoute();
 </script>
 
 <template>
-  <ul>
-    <li>
-      <NavItem
-          :selected="route.name === 'home'"
-          icon-type="fa-piggy-bank"
-          destination="home">Accounts
-      </NavItem>
-    </li>
-    <li>
-      <NavItem
-          :selected="route.name === 'budgets'"
-          icon-type="fa-calculator"
-          destination="budgets">Budgets
-      </NavItem>
-    </li>
-    <li>
-      <NavItem
-          :selected="route.name === 'reports'"
-          icon-type="fa-chart-line"
-          destination="reports">Reports
-      </NavItem>
-    </li>
-    <li>
-      <NavItem
-          :selected="route.path.indexOf('/tools/') > -1"
-          icon-type="fa-wrench"
-          destination="tools">Tools
-      </NavItem>
-    </li>
-  </ul>
+    <ul>
+        <li>
+            <NavItem
+                    :selected="route.name === 'home'"
+                    icon-type="fa-piggy-bank"
+                    destination="home">Accounts
+            </NavItem>
+        </li>
+        <li>
+            <NavItem
+                    :selected="route.name === 'budgets'"
+                    icon-type="fa-calculator"
+                    destination="budgets">Budgets
+            </NavItem>
+        </li>
+        <li>
+            <NavItem
+                    :selected="route.name === 'reports'"
+                    icon-type="fa-chart-line"
+                    destination="reports">Reports
+            </NavItem>
+        </li>
+        <li>
+            <NavItem
+                    :selected="route.path.indexOf('/tools/') > -1"
+                    icon-type="fa-wrench"
+                    destination="tools">Tools
+            </NavItem>
+        </li>
+        <li>
+            <NavItem
+                    :selected="route.name === 'about'"
+                    icon-type="fa-circle-info"
+                    destination="about">About
+            </NavItem>
+        </li>
+    </ul>
 </template>
 
 <style lang="less" scoped>
