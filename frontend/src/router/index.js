@@ -11,6 +11,7 @@ import Login from "@/components/auth/Login.vue";
 import Authenticate from "@/views/Authenticate.vue";
 import Logout from "@/components/auth/Logout.vue";
 import {useCookies} from "vue3-cookies";
+import About from "@/views/About.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,12 @@ const router = createRouter({
                             component: Accounts
                         }
                     ]
+                },
+                {
+                    path: '/about',
+                    name: 'about',
+                    component: About
+
                 }
             ]
         },
