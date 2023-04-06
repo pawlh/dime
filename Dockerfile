@@ -1,4 +1,4 @@
-FROM golang:1.20.3
+FROM 1.20.3-alpine3.17
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN go mod download
 RUN go build -o /dime ./cmd/dime
 
 RUN apk add --update nodejs yarn
-WORKDIR /app/internal
+WORKDIR /app/frontend
 RUN yarn install && yarn build
 
 CMD [ "/dime" ]
