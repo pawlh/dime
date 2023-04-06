@@ -1,7 +1,8 @@
 import {useStateStore} from "@/store/state";
+import {SERVER_URL} from "@/store/app";
 
 export const setupTransactionWS = () => {
-    const ws = new WebSocket("ws://localhost:1323/api/transactions");
+    const ws = new WebSocket(`ws://${SERVER_URL}/api/transactions`);
     ws.onopen = () => {
         console.log("Connected to websocket");
     };
