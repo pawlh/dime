@@ -22,6 +22,9 @@ services:
   dime:
     build: .
     restart: unless-stopped
+    environment:
+      MONGO_HOST: "mongo-main:27017"
+      MONGO_TEST_HOST: "mongo-test:27017"
     ports:
       - "1323:1323"
 
