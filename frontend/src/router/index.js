@@ -5,7 +5,6 @@ import Reports from "@/views/Reports.vue";
 import Tools from "@/views/Tools.vue";
 import Import from "@/views/tools/Import.vue";
 import Accounts from "@/views/tools/Accounts.vue";
-import {useStateStore} from "@/store/state";
 import Home from "@/views/Home.vue";
 import Register from "@/components/auth/Register.vue";
 import Login from "@/components/auth/Login.vue";
@@ -84,9 +83,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-    const stateStore = useStateStore()
 
-    const { cookies } = useCookies();
+const { cookies } = useCookies();
 
     const loggedIn = cookies.get('token') !== null
 
