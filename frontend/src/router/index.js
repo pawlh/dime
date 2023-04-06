@@ -11,6 +11,7 @@ import Register from "@/components/auth/Register.vue";
 import Login from "@/components/auth/Login.vue";
 import Authenticate from "@/views/Authenticate.vue";
 import Logout from "@/components/auth/Logout.vue";
+import {useCookies} from "vue3-cookies";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -85,10 +86,19 @@ const router = createRouter({
 router.beforeEach((to) => {
     const stateStore = useStateStore()
 
+    const { cookies } = useCookies();
+
+    const loggedIn = cookies.get('token') !== null
+
     // If the user is not logged in and is not headed to the login, logout, or register pages, redirect to login
-    if (!stateStore.loggedIn && !['login', 'register', 'logout'].includes(to.name)) {
+    if (!loggedIn && !['login', 'register', 'logout'].includes(to.name)) {
         return {name: 'login'}
+    }
+
+    // The user can't be logged in and be on the login or register pages
+    if (loggedIn && ['login', 'register'].includes(to.name)) {
+        return {name: 'home'}
     }
 })
 
-export default router
+export default router;

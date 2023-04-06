@@ -1,12 +1,17 @@
 <script setup>
 import {useStateStore} from "@/store/state";
+import {useCookies} from "vue3-cookies";
 
 const stateStore = useStateStore();
+
+const { cookies } = useCookies()
 
 // There is currently no backend support for deactivating JWTs, so temporarily just clear user from store
 stateStore.loggedIn = false;
 stateStore.loggedInUser.name = '';
 stateStore.transactions = [];
+cookies.remove('token')
+
 
 
 </script>
