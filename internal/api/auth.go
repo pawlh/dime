@@ -83,6 +83,13 @@ func Register(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "error creating user", err)
 	}
 
+	if err := dbs.DB.TransactionDao().Insert(&models.Transactions{
+		Owner:        user.Username,
+		Transactions: []map[string]any{},
+	}); err != nil {
+		return mustSendError(c, http.StatusInternalServerError, "error creating user's transaction document", err)
+	}
+
 	token, err := generateToken(user)
 
 	c.SetCookie(generateCookie(token))
@@ -134,13 +141,13 @@ func validateToken(next echo.HandlerFunc) echo.HandlerFunc {
 		c.Set("username", claims["usr"])
 
 		// If the token is about to expire, generate a new one
-		if claims.VerifyExpiresAt(time.Now().Add(time.Hour*2).Unix(), true) {
-			newToken, _ := generateToken(models.User{
-				Username: claims["usr"].(string),
-				Name:     claims["nme"].(string),
-			})
-			c.SetCookie(generateCookie(newToken))
-		}
+		//if claims.VerifyExpiresAt(time.Now().Add(time.Hour*2).Unix(), true) {
+		//	newToken, _ := generateToken(models.User{
+		//		Username: claims["usr"].(string),
+		//		Name:     claims["nme"].(string),
+		//	})
+		//	c.SetCookie(generateCookie(newToken))
+		//}
 
 		return next(c)
 	}
