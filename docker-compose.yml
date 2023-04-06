@@ -19,6 +19,13 @@ services:
     volumes:
       - mongo_test_data:/data/db
 
+  dime:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "1323:1323"
+
+
 volumes:
   mongo_data:
   mongo_test_data:
