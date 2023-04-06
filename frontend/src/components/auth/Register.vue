@@ -3,8 +3,10 @@ import {useRouter} from "vue-router";
 import {useStateStore} from "@/store/state";
 import {SERVER_URL} from "@/store/app";
 import {ref} from "vue";
+import {useCookies} from "vue3-cookies";
 
 const stateStore = useStateStore();
+const { cookies } = useCookies();
 
 const router = useRouter();
 
@@ -34,6 +36,12 @@ const register = async () => {
             error.value = ''
             stateStore.loggedInUser.name = data.name;
             stateStore.loggedIn = true;
+
+            // TEMPORARY: ultimately the token will be stored as an httpOnly cookie
+            cookies.set('token', data.token, {
+                expires: 4 * 60 * 60
+            })
+
             await router.push({name: 'home'});
         } else if (res.status === 409) {
             error.value = "Username already exists"
