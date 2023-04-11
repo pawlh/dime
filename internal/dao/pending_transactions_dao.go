@@ -4,7 +4,7 @@ import (
 	"dime/internal/models"
 )
 
-type Pending interface {
+type PendingTransactionsDao interface {
 	Create(transactions *models.PendingTransactions) error
 	FindByOwner(owner string) (*models.PendingTransactions, error)
 }
