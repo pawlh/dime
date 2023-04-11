@@ -21,6 +21,10 @@ func (m MongoDB) TransactionDao() dao.TransactionsDao {
 	return mongodb.NewTransactions(m.client)
 }
 
+func (m MongoDB) PendingTransactionDao() dao.PendingTransactionsDao {
+	return mongodb.NewPendingTransactions(m.client)
+}
+
 func InitMongoDB(url string) error {
 	client, err := mongo.NewClient(options.Client().ApplyURI(url))
 	if err != nil {
