@@ -25,6 +25,33 @@ type activeConnection struct {
 	Conn     *websocket.Conn
 }
 
+type columnType string
+
+const (
+	UndefinedType columnType = ""
+	DateType                 = "date"
+	NumberType               = "number"
+	TextType                 = "text"
+)
+
+type updateType string
+
+const (
+	UndefinedUpdate    updateType = ""
+	ColumnNameUpdate              = "change_column_name"
+	RemoveColumnUpdate            = "remove_column"
+	AddColumnUpdate               = "add_column"
+	ColumnTypeUpdate              = "change_column_type"
+)
+
+type UpdateRequest struct {
+	TransactionGroupId int        `json:"transaction_group_id"`
+	UpdateType         updateType `json:"update_type"`
+	ColumnName         string     `json:"column_name"`
+	NewColumnName      string     `json:"new_column_name"`
+	NewColumnType      columnType `json:"new_column_type"`
+}
+
 var activeConnections []activeConnection
 
 var (
@@ -75,9 +102,8 @@ func GetPendingTransactions(c echo.Context) error {
 			break
 		}
 
-		// Convert the JSON data to []map[string]any
-		var data []map[string]any
-		err = json.Unmarshal(message, &data)
+		var updateRequest UpdateRequest
+		err = json.Unmarshal(message, &updateRequest)
 		if err != nil {
 			err := ws.WriteMessage(websocket.TextMessage, []byte("Error unmarshalling data"))
 			if err != nil {
