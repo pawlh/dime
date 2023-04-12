@@ -47,6 +47,11 @@ const login = async () => {
             console.error(await res.text())
         }
     } catch (e) {
+        if (e instanceof TypeError) {
+            error.value = "Could not connect to server"
+        } else {
+            error.value = "Unknown error occurred"
+        }
         console.log(`Something went wrong: ${e}`)
     }
 }
