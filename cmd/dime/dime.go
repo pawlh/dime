@@ -10,6 +10,9 @@ import (
 func main() {
 
 	dbHost := os.Getenv("MONGO_HOST")
+	if dbHost == "" {
+		log.Fatal("MONGO_HOST environment variable not set")
+	}
 	err := dbs.InitMongoDB("mongodb://" + dbHost)
 	if err != nil {
 		log.Fatal(err)
