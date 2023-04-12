@@ -21,7 +21,7 @@ func (m MongoDB) TransactionDao() dao.TransactionsDao {
 	return mongodb.NewTransactions(m.client)
 }
 
-func (m MongoDB) PendingTransactionDao() dao.PendingTransactionsDao {
+func (m MongoDB) PendingTransactionsDao() dao.PendingTransactionsDao {
 	return mongodb.NewPendingTransactions(m.client)
 }
 
