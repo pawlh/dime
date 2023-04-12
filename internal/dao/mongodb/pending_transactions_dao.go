@@ -16,7 +16,7 @@ func NewPendingTransactions(client *mongo.Client) PendingTransactions {
 
 // Create saves a new pending transaction to the database
 func (m PendingTransactions) Create(transactions *models.PendingTransactions) error {
-	collection := m.client.Database("dime").Collection("transactions")
+	collection := m.client.Database("dime").Collection("pending_transactions")
 
 	_, err := collection.InsertOne(nil, transactions)
 	if err != nil {
