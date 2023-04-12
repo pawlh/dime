@@ -61,38 +61,38 @@ func GetTransactions(c echo.Context) error {
 	return nil
 }
 
-func pinger(connection activeConnection) {
-	for {
-		err := connection.Conn.SetReadDeadline(time.Now().Add(5 * time.Second))
-		if err != nil {
-			return
-		}
-
-		err = connection.Conn.WriteMessage(websocket.PingMessage, []byte{})
-		if err != nil {
-			log.Println("Error sending ping to client:", err)
-			return
-		}
-
-		_, _, err = connection.Conn.ReadMessage()
-		if err != nil {
-			log.Println("Error reading ping from client:", err)
-			return
-		}
-
-		err = connection.Conn.SetReadDeadline(time.Time{})
-		if err != nil {
-			err := connection.Conn.Close()
-			if err != nil {
-				log.Println("Error closing connection:", err)
-				return
-			}
-			removeActiveConnection(connection.Id)
-			return
-		}
-
-		time.Sleep(5 * time.Second)
+func GetPendingTransactions(c echo.Context) error {
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		log.Println(err)
+		return err
 	}
+
+	for {
+		_, message, err := ws.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			break
+		}
+
+		// Convert the JSON data to []map[string]any
+		var data []map[string]any
+		err = json.Unmarshal(message, &data)
+		if err != nil {
+			err := ws.WriteMessage(websocket.TextMessage, []byte("Error unmarshalling data"))
+			if err != nil {
+				log.Println("Error sending error to client:", err)
+				return err
+			}
+		}
+
+		// Save the pending transactions
+		//err = dbs.DB.PendingTransactionsDao().SavePendingTransactions(data, c.Get("username").(string))
+
+	}
+
+	return nil
+
 }
 
 func sendTransactions(connection activeConnection) {
