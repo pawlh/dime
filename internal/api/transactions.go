@@ -32,7 +32,7 @@ func GetTransactions(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "unable to search transactions", err)
 	}
 
-	return c.JSON(http.StatusOK, transactions)
+	return c.JSON(http.StatusOK, transactions.Transactions)
 }
 
 func GetPendingTransactions(c echo.Context) error {
