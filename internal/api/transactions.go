@@ -12,13 +12,6 @@ import (
 	"time"
 )
 
-type Transaction struct {
-	ID          int       `json:"id"`
-	Description string    `json:"description"`
-	Amount      float64   `json:"amount"`
-	Date        time.Time `json:"date"`
-}
-
 type activeConnection struct {
 	Username string
 	Id       uint32
