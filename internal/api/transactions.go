@@ -2,47 +2,18 @@ package api
 
 import (
 	"dime/internal/dbs"
+	"dime/internal/transaction"
 	"encoding/json"
-	"fmt"
-	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
-	"time"
 )
 
 type activeConnection struct {
 	Username string
 	Id       uint32
 	Conn     *websocket.Conn
-}
-
-type columnType string
-
-const (
-	UndefinedType columnType = ""
-	DateType                 = "date"
-	NumberType               = "number"
-	TextType                 = "text"
-)
-
-type updateType string
-
-const (
-	UndefinedUpdate    updateType = ""
-	ColumnNameUpdate              = "change_column_name"
-	RemoveColumnUpdate            = "remove_column"
-	AddColumnUpdate               = "add_column"
-	ColumnTypeUpdate              = "change_column_type"
-)
-
-type UpdateRequest struct {
-	TransactionGroupId int        `json:"transaction_group_id"`
-	UpdateType         updateType `json:"update_type"`
-	ColumnName         string     `json:"column_name"`
-	NewColumnName      string     `json:"new_column_name"`
-	NewColumnType      columnType `json:"new_column_type"`
 }
 
 var activeConnections []activeConnection
@@ -78,7 +49,7 @@ func GetPendingTransactions(c echo.Context) error {
 			break
 		}
 
-		var updateRequest UpdateRequest
+		var updateRequest transaction.UpdateRequest
 		err = json.Unmarshal(message, &updateRequest)
 		if err != nil {
 			err := ws.WriteMessage(websocket.TextMessage, []byte("Error unmarshalling data"))
