@@ -4,7 +4,6 @@ import FloatingActionButton from "@/components/FloatingActionButton.vue";
 import Navigation from "@/views/Navigation.vue";
 import ProfilePreview from "@/components/ProfilePreview.vue";
 import router from "@/router";
-import {setupTransactionWS} from "@/utils/transactions";
 
 </script>
 
