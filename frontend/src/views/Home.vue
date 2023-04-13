@@ -6,9 +6,6 @@ import ProfilePreview from "@/components/ProfilePreview.vue";
 import router from "@/router";
 import {setupTransactionWS} from "@/utils/transactions";
 
-//connect to websocket at /api/transactions
-setupTransactionWS()
-
 </script>
 
 
