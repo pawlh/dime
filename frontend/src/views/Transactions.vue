@@ -1,6 +1,7 @@
 <script setup>
 import DataTable from "@/components/DataTable.vue";
 import {useStateStore} from "@/store/state";
+import {SERVER_URL} from "@/store/app";
 
 const headers = [
     {label: "id", sortable: false, hidden: true},
@@ -12,6 +13,22 @@ const headers = [
 ];
 
 const stateStore = useStateStore()
+
+fetchTransactions()
+async function fetchTransactions() {
+    const res = await fetch(SERVER_URL + '/api/transactions', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    const data = await res.json()
+
+    if (!res.ok) {
+        console.error('Failed to fetch transactions: ' + res.status + ' ' + res.error)
+        return
+    }
+
+    stateStore.transactions = data
+}
 
 </script>
 
