@@ -6,5 +6,5 @@ type PendingTransactions struct {
 	SavedTransactions  []map[string]any `bson:"transactions" json:"transactions"`
 	Owner              string           `bson:"owner" json:"owner"`
 	Name               string           `bson:"name" json:"name"`
-	TransactionGroupId int              `bson:"_id" json:"transaction_group_id"`
+	TransactionGroupId string           `bson:"_id,omitempty" json:"transaction_group_id"`
 }
