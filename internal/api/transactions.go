@@ -10,14 +10,6 @@ import (
 	"net/http"
 )
 
-type activeConnection struct {
-	Username string
-	Id       uint32
-	Conn     *websocket.Conn
-}
-
-var activeConnections []activeConnection
-
 var (
 	upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
