@@ -39,7 +39,7 @@ func (m PendingTransactions) Create(transactions *models.PendingTransactions) er
 }
 
 func (m PendingTransactions) FindByOwner(owner string) (*models.PendingTransactions, error) {
-	collection := m.client.Database("dime").Collection("transactions")
+	collection := m.client.Database("dime").Collection("pending_transactions")
 
 	var transactions models.PendingTransactions
 	err := collection.FindOne(nil, bson.M{"owner": owner}).Decode(&transactions)
@@ -51,7 +51,7 @@ func (m PendingTransactions) FindByOwner(owner string) (*models.PendingTransacti
 }
 
 func (m PendingTransactions) FindById(id string) (*models.PendingTransactions, error) {
-	collection := m.client.Database("dime").Collection("transactions")
+	collection := m.client.Database("dime").Collection("pending_transactions")
 
 	var transactions models.PendingTransactions
 	err := collection.FindOne(nil, bson.M{"_id": id}).Decode(&transactions)
@@ -63,7 +63,7 @@ func (m PendingTransactions) FindById(id string) (*models.PendingTransactions, e
 }
 
 func (m PendingTransactions) Save(transactions *models.PendingTransactions) error {
-	collection := m.client.Database("dime").Collection("transactions")
+	collection := m.client.Database("dime").Collection("pending_transactions")
 
 	_, err := collection.ReplaceOne(nil, bson.M{"_id": transactions.TransactionGroupId}, transactions)
 	if err != nil {
