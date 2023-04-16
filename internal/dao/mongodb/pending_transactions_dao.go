@@ -4,6 +4,7 @@ import (
 	"dime/internal/models"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -53,8 +54,13 @@ func (m PendingTransactions) FindByOwner(owner string) (*models.PendingTransacti
 func (m PendingTransactions) FindById(id string) (*models.PendingTransactions, error) {
 	collection := m.client.Database("dime").Collection("pending_transactions")
 
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
 	var transactions models.PendingTransactions
-	err := collection.FindOne(nil, bson.M{"_id": id}).Decode(&transactions)
+	err = collection.FindOne(nil, bson.M{"_id": objectId}).Decode(&transactions)
 	if err != nil {
 		return nil, err
 	}

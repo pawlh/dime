@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"dime/internal/models"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 )
 
@@ -139,4 +140,48 @@ func TestPendingTransactions_FindByOwner(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestPendingTransactions_FindById(t *testing.T) {
+	BeforeEach()
+	collection := client.Database("dime").Collection("pending_transactions")
+
+	testPendingTransaction := &models.PendingTransactions{
+		WIPTransactions: []map[string]any{
+			{
+				"amount": int32(100),
+				"date":   "2021-01-01",
+			},
+		},
+		Name:  "test transaction group",
+		Owner: "testUser",
+	}
+
+	objectId, err := collection.InsertOne(nil, testPendingTransaction)
+	if err != nil {
+		t.Errorf("Error creating test pending transactions: %v", err)
+	}
+
+	id := objectId.InsertedID.(primitive.ObjectID).Hex()
+
+	dao := NewPendingTransactions(client)
+
+	if transactions, err := dao.FindById(id); err != nil {
+		t.Errorf("Error finding pending transaction: %v", err)
+	} else {
+		if transactions.Name != testPendingTransaction.Name {
+			t.Errorf("Name does not match: %v", transactions.Name)
+		}
+		if transactions.Owner != testPendingTransaction.Owner {
+			t.Errorf("Owner does not match: %v", transactions.Owner)
+		}
+
+		if transactions.WIPTransactions[0]["amount"] != testPendingTransaction.WIPTransactions[0]["amount"] {
+			t.Errorf("Amount does not match: %v", transactions.WIPTransactions[0]["amount"])
+		}
+		if transactions.WIPTransactions[0]["date"] != testPendingTransaction.WIPTransactions[0]["date"] {
+			t.Errorf("Date does not match: %v", transactions.WIPTransactions[0]["date"])
+		}
+	}
+
 }
