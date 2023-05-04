@@ -79,7 +79,7 @@ func TestPendingTransactions_Create(t *testing.T) {
 
 			dao := NewPendingTransactions(client)
 
-			if err := dao.Create(tt.args); (err != nil) != tt.wantErr {
+			if _, err := dao.Create(tt.args); (err != nil) != tt.wantErr {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -98,7 +98,7 @@ func TestPendingTransactions_FindByOwner(t *testing.T) {
 		},
 	}
 
-	err := dao.Create(&models.PendingTransactions{
+	_, err := dao.Create(&models.PendingTransactions{
 		WIPTransactions: testTransactions,
 		Name:            "test transaction group",
 		Owner:           "testUserA",
@@ -106,7 +106,7 @@ func TestPendingTransactions_FindByOwner(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error creating test pending transactions: %v", err)
 	}
-	err = dao.Create(&models.PendingTransactions{
+	_, err = dao.Create(&models.PendingTransactions{
 		WIPTransactions: testTransactions,
 		Name:            "test transaction group",
 		Owner:           "testUserB",

@@ -49,7 +49,7 @@ func Upload(c echo.Context) error {
 		Name:              transactionName,
 	}
 
-	err = dbs.DB.PendingTransactionsDao().Create(&transactions)
+	_, err = dbs.DB.PendingTransactionsDao().Create(&transactions)
 	if err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error saving record", err)
 	}
