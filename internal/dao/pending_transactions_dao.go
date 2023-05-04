@@ -9,4 +9,5 @@ type PendingTransactionsDao interface {
 	FindByOwner(owner string) (*models.PendingTransactions, error)
 	FindById(id string) (*models.PendingTransactions, error)
 	Save(transactions *models.PendingTransactions) error
+	Clear() error
 }

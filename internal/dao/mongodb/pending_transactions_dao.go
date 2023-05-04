@@ -71,7 +71,28 @@ func (m PendingTransactions) FindById(id string) (*models.PendingTransactions, e
 func (m PendingTransactions) Save(transactions *models.PendingTransactions) error {
 	collection := m.client.Database("dime").Collection("pending_transactions")
 
-	_, err := collection.ReplaceOne(nil, bson.M{"_id": transactions.TransactionGroupId}, transactions)
+	objectId, err := primitive.ObjectIDFromHex(transactions.TransactionGroupId)
+	if err != nil {
+		return err
+	}
+
+	//set "transactions" to match wip_transactions
+
+	_, err = collection.UpdateOne(nil,
+		bson.M{"_id": objectId},
+		bson.M{"$set": bson.M{"transactions": transactions.WIPTransactions}},
+	)
+	//_, err = collection.ReplaceOne(nil, bson.M{"_id": objectId}, transactions)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m PendingTransactions) Clear() error {
+	collection := m.client.Database("dime").Collection("pending_transactions")
+	err := collection.Drop(nil)
 	if err != nil {
 		return err
 	}
