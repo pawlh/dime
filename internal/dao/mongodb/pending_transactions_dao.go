@@ -17,26 +17,26 @@ func NewPendingTransactions(client *mongo.Client) PendingTransactions {
 }
 
 // Create saves a new pending transaction to the database
-func (m PendingTransactions) Create(transactions *models.PendingTransactions) error {
+func (m PendingTransactions) Create(transactions *models.PendingTransactions) (string, error) {
 
 	if transactions.Owner == "" {
-		return errors.New("owner is required")
+		return "", errors.New("owner is required")
 	}
 	if transactions.Name == "" {
-		return errors.New("name is required")
+		return "", errors.New("name is required")
 	}
 	if transactions.WIPTransactions == nil || len(transactions.WIPTransactions) == 0 {
-		return errors.New("wip_transactions is required")
+		return "", errors.New("wip_transactions is required")
 	}
 
 	collection := m.client.Database("dime").Collection("pending_transactions")
 
-	_, err := collection.InsertOne(nil, transactions)
+	result, err := collection.InsertOne(nil, transactions)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return result.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
 func (m PendingTransactions) FindByOwner(owner string) (*models.PendingTransactions, error) {
