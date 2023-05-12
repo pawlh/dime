@@ -101,6 +101,7 @@ func Register(c echo.Context) error {
 	if err := c.JSON(http.StatusOK, echo.Map{
 		"username": user.Username,
 		"name":     user.Name,
+		"token":    token, // this is temporary, token should ultimately be an HttpOnly cookie
 	}); err != nil {
 		return mustSendError(c, http.StatusInternalServerError, "error sending message", err)
 	}
