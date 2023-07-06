@@ -3,11 +3,11 @@ import cookies from '$lib/utils/cookies';
 import localStorage from '$lib/utils/localStorage';
 
 interface User {
-	firstName: string;
-	lastName: string;
+	firstName: string | null;
+	lastName: string | null;
 }
 
-function getUserFromLocalStorage(): User | null {
+function getUserFromLocalStorage(): User {
 	const firstName = localStorage.get('firstName');
 	const lastName = localStorage.get('lastName');
 
@@ -18,11 +18,14 @@ function getUserFromLocalStorage(): User | null {
 		} as User;
 	}
 
-	return null;
+	return {
+		firstName: null,
+		lastName: null
+	};
 }
 
 const createUser = () => {
-	const { subscribe, set } = writable<User | null>(getUserFromLocalStorage());
+	const { subscribe, set } = writable<User>(getUserFromLocalStorage());
 
 	function refresh() {
 		const loggedIn = cookies.get('loggedIn') === 'true';
@@ -30,14 +33,20 @@ const createUser = () => {
 			localStorage.remove('firstName');
 			localStorage.remove('lastName');
 
-			set(null);
+			set({
+				firstName: null,
+				lastName: null
+			});
 		} else {
 			set(getUserFromLocalStorage());
 		}
 	}
 
 	function logout() {
-		set(null);
+		set({
+			firstName: null,
+			lastName: null
+		});
 	}
 
 	function login(user: User) {
@@ -65,4 +74,4 @@ user.subscribe((value) => {
 	}
 });
 
-export const isLoggedIn = derived(user, ($user) => $user?.firstName && $user?.lastName);
+export const isLoggedIn = derived(user, ($user) => $user.firstName && $user.lastName);
