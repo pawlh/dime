@@ -1,14 +1,5 @@
-:global(*) {
-    transition-duration: 2s;
-}
-:global(body) {
-    background-color: var(--background--color);
-    color: var(--text--color--primary);
-}
-
-:global(h1, h2, h3, h4, h5, h6) {
-    color: var(--text--color--primary);
-}
+@import url('../../static/lightTheme.css');
+@import url('../../static/darkTheme.css');
 
 :global(h1) {
     font-size: 2rem;
@@ -34,3 +25,7 @@
     font-size: 0.67rem;
 }
 
+:global(*) {
+    /*transition-property: background-color, color, border-color, box-shadow, fill, stroke, opacity;*/
+    transition-duration: 10s;
+}
