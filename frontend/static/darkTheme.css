@@ -1,7 +1,7 @@
-:root {
+.dark-theme {
     --background--color: #222;
 
-    --text--color--primary: #fff;
+    --text--color--primary: pink;
     --text--color--secondary: #6c7293;
     --text--color--error: #ffcbcb;
     --text--color--interactive: #fff;
