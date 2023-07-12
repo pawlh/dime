@@ -50,7 +50,6 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-
   }
 
   .nav-bar {
@@ -68,7 +67,9 @@
 
     .nav-bar {
       position: static;
-      width: 300px;
+      width: 250px;
+
+      height: 100vh;
     }
   }
 </style>
