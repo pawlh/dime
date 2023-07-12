@@ -5,6 +5,7 @@
     import cookies from '$lib/utils/cookies';
     import {getPage, navigateTo} from '$lib/utils/navigation';
     import {onMount} from 'svelte';
+    import ThemeChooser from "$lib/features/navbar/ThemeChooser.svelte";
 
 
     $: if (!isLoggedIn) {
@@ -22,12 +23,18 @@
 </script>
 
 <div id="container" class={$theme === 'dark' ? 'dark-theme' : 'light-theme'}>
-    <NavBar/>
-    <h2>hi</h2>
-    <slot/>
+    <div class="nav-bar">
+        <NavBar/>
+    </div>
+    <div class="main">
+        <div class="status-bar">
+            <ThemeChooser/>
+        </div>
+        <slot/>
+    </div>
 </div>
 
-<style lang="scss" global>
+<style lang="scss">
   @import './global.css';
 
   #container {
@@ -35,4 +42,27 @@
     color: var(--text--color--primary);
   }
 
+  #container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  @media (min-width: 768px) {
+    #container {
+      flex-direction: row;
+    }
+
+    .nav-bar {
+      position: static;
+      width: 300px;
+    }
+  }
 </style>
