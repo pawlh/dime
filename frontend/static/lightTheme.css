@@ -1,4 +1,4 @@
-.light-theme {
+:global(:root) {
     --background--color: #fff;
 
     --text--color--primary: #000;

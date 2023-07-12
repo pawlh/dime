@@ -1,4 +1,4 @@
-.dark-theme {
+:global([data-theme="dark"]) {
     --background--color: #222;
 
     --text--color--primary: pink;
