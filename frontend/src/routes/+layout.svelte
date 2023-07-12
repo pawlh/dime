@@ -40,11 +40,11 @@
   #container {
     background-color: var(--background--color);
     color: var(--text--color--primary);
-  }
 
-  #container {
     display: flex;
     flex-direction: column;
+    height: 100vh;
+
   }
 
   .nav-bar {
