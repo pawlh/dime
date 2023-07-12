@@ -1,16 +1,22 @@
 <script lang="ts">
     import NavBar from '$lib/features/navbar/NavBar.svelte';
     import {isLoggedIn, user} from '$lib/stores/auth';
-    import {theme} from '$lib/stores/theme';
     import cookies from '$lib/utils/cookies';
     import {getPage, navigateTo} from '$lib/utils/navigation';
-    import {onMount} from 'svelte';
+    import {onDestroy, onMount} from 'svelte';
     import ThemeChooser from "$lib/features/navbar/ThemeChooser.svelte";
+    import {theme} from "$lib/stores/theme";
 
 
     $: if (!isLoggedIn) {
         if (getPage().url.pathname !== '/auth/register') navigateTo('/auth/login');
     }
+
+    const themeUnsubscribe = theme.subscribe(value => {
+        document.documentElement.setAttribute('data-theme', value);
+    });
+
+    onDestroy(themeUnsubscribe);
 
     // TODO: Remove this when there is a proper login flow
     onMount(() => {
@@ -22,7 +28,7 @@
     });
 </script>
 
-<div id="container" class={$theme === 'dark' ? 'dark-theme' : 'light-theme'}>
+<div id="container">
     <div class="nav-bar">
         <NavBar/>
     </div>
