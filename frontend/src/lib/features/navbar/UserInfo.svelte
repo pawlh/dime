@@ -1,21 +1,18 @@
 <script>
-	import { user } from '$lib/stores/auth';
+	import {user} from '$lib/stores/auth';
 </script>
 
 <div class="container">
-	<!-- <img /> -->
-	<div>
-		<h3>{$user.firstName} {$user.lastName}</h3>
-	</div>
+    <!-- <img /> -->
+    <div>
+        <h3>{$user.firstName} {$user.lastName}</h3>
+    </div>
 </div>
 
 <style>
-	.container {
-		background-color: var(--surface--color--primary);
-
-		padding: 12px;
-
-		display: flex;
-		flex-direction: column;
-	}
+    .container {
+        background-color: var(--surface--color--primary);
+        display: flex;
+        flex-direction: column;
+    }
 </style>
