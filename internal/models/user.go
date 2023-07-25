@@ -1,8 +1,7 @@
 package models
 
 type User struct {
-	Id        int
-	FirstName string
-	LastName  string
-	Password  string
+	FirstName string `bson:"firstName"`
+	LastName  string `bson:"lastName"`
+	Password  string `bson:"password"`
 }
