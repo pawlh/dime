@@ -32,6 +32,7 @@ func (m *MongoDB) UserDAO() (dao.UserDAO, error) {
 	return m.userDao, nil
 }
 
+// connect connects to the database using the uri provided in Init()
 func (m *MongoDB) connect() error {
 	if m.uri == "" {
 		return errors.New("Bad usage, call Init() first")
@@ -43,7 +44,6 @@ func (m *MongoDB) connect() error {
 		return err
 	}
 	m.client = client
-	m.uri = "bleh"
 
 	return nil
 }
@@ -58,6 +58,7 @@ func (m *MongoDB) Disconnect() {
 	m.userDao = nil
 }
 
+// Init initializes configures the connection to the database. The uri should be formatted as specified in the docs https://www.mongodb.com/docs/manual/reference/connection-string/
 func Init(uri string) *MongoDB {
 	return &MongoDB{uri: uri}
 }
