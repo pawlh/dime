@@ -16,6 +16,7 @@ type MongoDB struct {
 	userDao *UserDAO
 }
 
+// UserDAO returns a dao.UserDAO instance. Init() must be used to set up the MongoDB instance
 func (m *MongoDB) UserDAO() (dao.UserDAO, error) {
 	if m.userDao != nil {
 		return m.userDao, nil
