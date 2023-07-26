@@ -45,7 +45,7 @@ func (dao UserDAO) GetUser(id string) (*models.User, error) {
 }
 
 // TODO: Move this to a utils package
-// objectIdToHex converts an objectId to a hex string. Note, must cast the objectId to a primitive.ObjectID
+// objectedIdToHex converts an objectId to a hex string. Note, must cast the objectId to a primitive.ObjectID
 func objectedIdToHex(objectId primitive.ObjectID) string {
 	return objectId.Hex()
 }
