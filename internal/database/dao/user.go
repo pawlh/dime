@@ -10,4 +10,7 @@ type UserDAO interface {
 	// AddUser Create a new user.
 	// Returns the UUID of the new user
 	AddUser(user models.User) (string, error)
+
+	// Clear removes all users from the database. This method should only be used for testing
+	Clear() error
 }

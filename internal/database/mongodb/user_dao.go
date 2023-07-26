@@ -44,6 +44,12 @@ func (dao UserDAO) GetUser(id string) (*models.User, error) {
 	return &user, nil
 }
 
+func (dao UserDAO) Clear() error {
+	collection := dao.client.Database("dime").Collection(userCollectionName)
+	_, err := collection.DeleteMany(nil, bson.D{})
+	return err
+}
+
 // TODO: Move this to a utils package
 // objectedIdToHex converts an objectId to a hex string. Note, must cast the objectId to a primitive.ObjectID
 func objectedIdToHex(objectId primitive.ObjectID) string {
