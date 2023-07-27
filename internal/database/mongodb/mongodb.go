@@ -75,6 +75,7 @@ func (m *MongoDB) Disconnect() {
 
 	m.client = nil
 	m.userDao = nil
+	m.transactionDao = nil
 }
 
 // Init initializes configures the connection to the database. The uri should be formatted as specified in the docs https://www.mongodb.com/docs/manual/reference/connection-string/
