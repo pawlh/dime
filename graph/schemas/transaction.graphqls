@@ -1,0 +1,22 @@
+type Transaction {
+    id: ID!
+    date: String!
+    description: String!
+    amount: Float!
+    category: String!
+    account: String!
+    customFields: [UnknownField!]!
+}
+
+type UnknownField {
+    fieldName: String!
+    value: String!
+    fieldType: UnknownFieldType!
+}
+
+enum UnknownFieldType {
+    STRING
+    NUMBER
+    DATE
+    BOOLEAN
+}

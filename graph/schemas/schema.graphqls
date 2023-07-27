@@ -1,0 +1,6 @@
+
+
+type Query {
+  GetUser: User!
+  GetTransactions(userId: ID!): [Transaction]!
+}
