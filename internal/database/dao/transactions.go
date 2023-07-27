@@ -1,10 +1,13 @@
 package dao
 
+import "dime/internal/models"
+
 type TransactionDAO interface {
 	// AddTransaction Add a transaction to the database
-	AddTransaction(owner string, transaction []map[string]any) (string, error)
-	// AddTransactions Add a list of transactions to the database
-	AddTransactions(owner string, transactions []map[string]any) (string, error)
+	AddTransaction(transaction models.Transaction) (string, error)
+	// AddTransactions Add a list of transactions to the database.
+	AddTransactions(transactions []models.Transaction) error
 	// GetTransactions Fetch all transactions for a user
-	GetTransactions(owner string) ([]map[string]any, error)
+	GetTransactions(owner string) ([]models.Transaction, error)
+	Clear() error
 }
