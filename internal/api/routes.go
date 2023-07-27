@@ -9,6 +9,7 @@ func RegisterRoutes(e *echo.Echo) {
 
 	api := e.Group("/api")
 
+	api.GET("/me", GetMe)
 	api.GET("/transaction", GetTransactions)
 
 	// Default
@@ -16,5 +17,4 @@ func RegisterRoutes(e *echo.Echo) {
 		fmt.Println("Hello, World!")
 		return c.String(200, "Hello, World!")
 	})
-
 }
