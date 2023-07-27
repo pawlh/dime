@@ -49,16 +49,3 @@ func (dao UserDAO) Clear() error {
 	_, err := collection.DeleteMany(nil, bson.D{})
 	return err
 }
-
-// TODO: Move this to a utils package
-// objectedIdToHex converts an objectId to a hex string. Note, must cast the objectId to a primitive.ObjectID
-func objectedIdToHex(objectId primitive.ObjectID) string {
-	return objectId.Hex()
-}
-
-// TODO: Move this to a utils package
-// hexToObjectId converts a hex string to an objectId
-func hexToObjectId(hex string) primitive.ObjectID {
-	objectId, _ := primitive.ObjectIDFromHex(hex)
-	return objectId
-}

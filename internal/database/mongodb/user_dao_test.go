@@ -79,17 +79,3 @@ func TestUserDAO_GetUser(t *testing.T) {
 	}
 
 }
-
-func beforeEach(t *testing.T) {
-	db := Init(mongoUri)
-	defer db.Disconnect()
-
-	userDao, err := db.UserDAO()
-	if err != nil {
-		panic(err)
-	}
-
-	if userDao.Clear() != nil {
-		t.Errorf("Error clearing users: %v", err)
-	}
-}
