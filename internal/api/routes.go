@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"github.com/labstack/echo-jwt"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
