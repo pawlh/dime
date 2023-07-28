@@ -79,3 +79,65 @@ func TestUserDAO_GetUser(t *testing.T) {
 	}
 
 }
+
+func TestUserDAO_GetUsers(t *testing.T) {
+	beforeEach(t)
+
+	db := Init(mongoUri)
+	defer db.Disconnect()
+
+	userDao, err := db.UserDAO()
+	if err != nil {
+		t.Errorf("Error getting user dao: %v", err)
+	}
+
+	/* Set up */
+	testUsers := []models.User{
+		{
+			FirstName: "John",
+			LastName:  "Doe",
+			Password:  "password",
+		},
+		{
+			FirstName: "Jane",
+			LastName:  "Doe",
+			Password:  "password",
+		},
+		{
+			FirstName: "Jack",
+			LastName:  "Doe",
+			Password:  "password",
+		},
+	}
+
+	for _, user := range testUsers {
+		_, err := userDao.AddUser(user)
+		if err != nil {
+			t.Errorf("Error adding user: %v", err)
+		}
+	}
+	/* End set up */
+
+	foundUsers, err := userDao.GetUsers()
+	if err != nil {
+		t.Errorf("Error getting users: %v", err)
+	}
+
+	if len(foundUsers) != len(testUsers) {
+		t.Errorf("Expected %v users, got %v", len(testUsers), len(foundUsers))
+	}
+
+	for i, user := range foundUsers {
+		if user.FirstName != testUsers[i].FirstName {
+			t.Errorf("User first names don't match. Expected %v, got %v", testUsers[i].FirstName, user.FirstName)
+		}
+
+		if user.LastName != testUsers[i].LastName {
+			t.Errorf("User last names don't match. Expected %v, got %v", testUsers[i].LastName, user.LastName)
+		}
+
+		if user.Password != testUsers[i].Password {
+			t.Errorf("User passwords don't match. Expected %v, got %v", testUsers[i].Password, user.Password)
+		}
+	}
+}

@@ -44,6 +44,22 @@ func (dao UserDAO) GetUser(id string) (*models.User, error) {
 	return &user, nil
 }
 
+func (dao UserDAO) GetUsers() ([]models.User, error) {
+	collection := dao.client.Database("dime").Collection(userCollectionName)
+	cursor, err := collection.Find(nil, bson.D{})
+	if err != nil {
+		return nil, err
+	}
+
+	var users []models.User
+	err = cursor.All(nil, &users)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
 func (dao UserDAO) Clear() error {
 	collection := dao.client.Database("dime").Collection(userCollectionName)
 	_, err := collection.DeleteMany(nil, bson.D{})
