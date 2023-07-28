@@ -14,18 +14,31 @@ import (
 var secret = []byte("secret")
 
 type getMeResponse struct {
+	UserId    string `json:"userId"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 }
 
 // GetMe Get the currently logged-in user
 func GetMe(c echo.Context) error {
-	user := models.User{
-		FirstName: "John",
-		LastName:  "Doe",
+
+	userId := c.Get("user").(*jwt.Token).Claims.(jwt.MapClaims)["userId"].(string)
+
+	userDao, err := database.DB.UserDAO()
+	if err != nil {
+		return mustSendError(c, http.StatusInternalServerError, "internal server error", err)
+	}
+	user, err := userDao.GetUser(userId)
+	if err != nil {
+		return mustSendError(c, http.StatusInternalServerError, "internal server error", err)
+	}
+	if user == nil {
+		// TODO: this should never happen, but probably should be handled better
+		return mustSendError(c, http.StatusInternalServerError, "internal server error", err)
 	}
 
 	return c.JSON(200, getMeResponse{
+		UserId:    user.Id,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 	})
@@ -143,6 +156,20 @@ func GetUsers(c echo.Context) error {
 	}
 
 	return c.JSON(200, users)
+}
+
+func RenewTokenMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		user := c.Get("user").(*jwt.Token).Claims.(jwt.MapClaims)
+		userId := user["userId"].(string)
+		if cookie, err := generateTokenCookie(userId); err != nil {
+			return mustSendError(c, http.StatusInternalServerError, "internal server error", err)
+		} else {
+			c.SetCookie(cookie)
+		}
+
+		return next(c)
+	}
 }
 
 type jwtCustomClaims struct {

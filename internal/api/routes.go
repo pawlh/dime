@@ -19,6 +19,7 @@ func RegisterRoutes(e *echo.Echo) {
 		TokenLookup: "cookie:token",
 		SigningKey:  secret,
 	}))
+	authenticatedApi.Use(RenewTokenMiddleware)
 
 	authenticatedApi.POST("/logout", Logout)
 
