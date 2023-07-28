@@ -2,6 +2,7 @@ package api
 
 import (
 	"dime/internal/database"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -12,9 +13,9 @@ func GetTransactions(c echo.Context) error {
 	}
 	defer database.DB.Disconnect()
 
-	// TODO: pull this from the auth token
-	// /transaction?owner=ownerOfTransactions
-	owner := c.QueryParam("owner")
+	user := c.Get("user").(*jwt.Token)
+
+	owner := user.Claims.(jwt.MapClaims)["userId"].(string)
 
 	if owner == "" {
 		return c.JSON(400, "Missing owner parameter")
