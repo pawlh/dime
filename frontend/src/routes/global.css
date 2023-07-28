@@ -1,0 +1,47 @@
+/*@import url('../../static/reset.css');*/
+@import url('../../static/lightTheme.css');
+@import url('../../static/darkTheme.css');
+
+:global(h1, h2, h3, h4, h5, h6) {
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+:global(h1) {
+    font-size: 2rem;
+}
+
+:global(h2) {
+    font-size: 1.5rem;
+}
+
+:global(h3) {
+    font-size: 1.17rem;
+}
+
+:global(h4) {
+    font-size: 1rem;
+}
+
+:global(h5) {
+    font-size: 0.83rem;
+}
+
+:global(h6) {
+    font-size: 0.67rem;
+}
+
+:global(body) {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+    color: var(--text--color--primary);
+    background-color: var(--background--color);
+
+    margin: 0;
+}
+
+:global(a) {
+    color: var(--text--color--interactive);
+    text-decoration: none;
+}

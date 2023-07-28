@@ -1,0 +1,14 @@
+:global([data-theme="dark"]) {
+    --background--color: #000;
+
+    --text--color--primary: #b6b6b6;
+    --text--color--secondary: #6C7293;
+    --text--color--error: #ffcbcb;
+    --text--color--interactive: #fff;
+    --text--color--disabled: #d0d8dd;
+
+    --border--color: #0090E7;
+
+    --surface--color--primary: #191C24;
+    --surface--color--secondary: #0E1015;
+}
