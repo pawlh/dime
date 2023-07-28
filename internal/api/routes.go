@@ -1,47 +1,34 @@
 package api
 
 import (
+	"fmt"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"net/http"
 )
 
 func RegisterRoutes(e *echo.Echo) {
 
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{
-			"http://localhost:5173",
-			"http://localhost:1323",
-			"https://dime.pawl.app",
-		},
-		AllowCredentials: true,
-	}))
+	api := e.Group("/api")
 
-	apiGroup := e.Group("/api")
-	apiGroup.POST("/login", Login)
-	apiGroup.POST("/register", Register)
+	api.POST("/login", Login)
+	api.POST("/register", Register)
+	api.GET("/users", GetUsers)
 
-	apiGroup.Use(echojwt.WithConfig(echojwt.Config{
+	authenticatedApi := api.Group("")
+	authenticatedApi.Use(echojwt.WithConfig(echojwt.Config{
 		TokenLookup: "cookie:token",
 		SigningKey:  secret,
 	}))
-	apiGroup.Use(validateToken)
+	authenticatedApi.Use(RenewTokenMiddleware)
 
-	apiGroup.POST("/upload", Upload)
-	apiGroup.GET("/pending_transactions", GetPendingTransactions)
-	apiGroup.GET("/transactions", GetTransactions)
+	authenticatedApi.POST("/logout", Logout)
 
-	e.Static("/", "frontend/dist")
+	authenticatedApi.GET("/me", GetMe)
+	authenticatedApi.GET("/transaction", GetTransactions)
 
-	e.HTTPErrorHandler = func(err error, c echo.Context) {
-		if err.(*echo.HTTPError).Code == 401 {
-			_ = mustSendError(c, http.StatusUnauthorized, "missing or invalid JWT", err)
-		} else {
-			defaultPage := "frontend/dist/index.html"
-			if err = c.File(defaultPage); err != nil {
-				c.Logger().Error(err)
-			}
-		}
-	}
+	// Default
+	e.GET("/", func(c echo.Context) error {
+		fmt.Println("Hello, World!")
+		return c.String(200, "Hello, World!")
+	})
 }

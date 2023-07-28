@@ -5,11 +5,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Start() {
+const defaultPort = ":8080"
 
+func Start() {
 	e := echo.New()
 
 	api.RegisterRoutes(e)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(defaultPort))
 }

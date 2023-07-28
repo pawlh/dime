@@ -1,7 +1,8 @@
-FROM golang:1.20.5-alpine3.18
+FROM golang:1.20.6-alpine3.17
 
 WORKDIR /app
 
+#COPY go.mod go.sum ./
 COPY . .
 RUN go mod download
 RUN go build -o ./dime ./cmd/dime

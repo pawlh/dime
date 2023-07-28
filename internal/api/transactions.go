@@ -1,27 +1,34 @@
 package api
 
 import (
-	"dime/internal/dbs"
+	"dime/internal/database"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
 func GetTransactions(c echo.Context) error {
-	transactions, err := dbs.DB.TransactionDao().FindByOwner(c.Get("username").(string))
+	transactionDao, err := database.DB.TransactionDAO()
 	if err != nil {
-		return mustSendError(c, http.StatusInternalServerError, "unable to search transactions", err)
+		return err
+	}
+	defer database.DB.Disconnect()
+
+	user := c.Get("user").(*jwt.Token)
+
+	owner := user.Claims.(jwt.MapClaims)["userId"].(string)
+
+	if owner == "" {
+		return c.JSON(400, "Missing owner parameter")
 	}
 
-	return c.JSON(http.StatusOK, transactions.Transactions)
-}
+	transactions, err := transactionDao.GetTransactions(owner)
+	if err != nil {
+		return err
+	}
 
-// GetPendingTransactions returns all pending transactions for the user
-func GetPendingTransactions(c echo.Context) error {
-	//transactions, err := dbs.DB.TransactionDao().FindPendingByOwner(c.Get("username").(string))
-	//if err != nil {
-	//	return mustSendError(c, http.StatusInternalServerError, "unable to search pending transactions", err)
-	//}
-	//
-	//return c.JSON(http.StatusOK, transactions.Transactions)
-	return nil
+	if len(transactions) == 0 {
+		return c.JSON(200, []string{})
+	}
+
+	return c.JSON(200, transactions)
 }
