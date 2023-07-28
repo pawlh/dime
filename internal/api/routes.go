@@ -9,6 +9,11 @@ func RegisterRoutes(e *echo.Echo) {
 
 	api := e.Group("/api")
 
+	// Auth
+	api.POST("/login", Login)
+	api.POST("/register", Register)
+	api.GET("/users", GetUsers)
+
 	api.GET("/me", GetMe)
 	api.GET("/transaction", GetTransactions)
 
