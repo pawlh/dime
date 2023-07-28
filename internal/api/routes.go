@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 )
 
@@ -9,13 +10,20 @@ func RegisterRoutes(e *echo.Echo) {
 
 	api := e.Group("/api")
 
-	// Auth
 	api.POST("/login", Login)
 	api.POST("/register", Register)
 	api.GET("/users", GetUsers)
 
-	api.GET("/me", GetMe)
-	api.GET("/transaction", GetTransactions)
+	authenticatedApi := api.Group("")
+	authenticatedApi.Use(echojwt.WithConfig(echojwt.Config{
+		TokenLookup: "cookie:token",
+		SigningKey:  secret,
+	}))
+
+	authenticatedApi.POST("/logout", Logout)
+
+	authenticatedApi.GET("/me", GetMe)
+	authenticatedApi.GET("/transaction", GetTransactions)
 
 	// Default
 	e.GET("/", func(c echo.Context) error {
