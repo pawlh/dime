@@ -13,6 +13,7 @@ type getMeResponse struct {
 	LastName  string `json:"lastName"`
 }
 
+// GetMe Get the currently logged-in user
 func GetMe(c echo.Context) error {
 	user := models.User{
 		FirstName: "John",
@@ -30,6 +31,7 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+// Login Log in a user
 func Login(c echo.Context) error {
 	var loginRequest LoginRequest
 	err := c.Bind(&loginRequest)
@@ -69,6 +71,7 @@ type RegisterRequest struct {
 	Password  string `json:"password"`
 }
 
+// Register Register a new user
 func Register(c echo.Context) error {
 	var registerRequest RegisterRequest
 	err := c.Bind(&registerRequest)
@@ -96,6 +99,8 @@ func Register(c echo.Context) error {
 	return c.JSON(200, nil)
 }
 
+// GetUsers Get the name and id of all users
+// TODO: add a setting to toggle returning names
 func GetUsers(c echo.Context) error {
 	userDao, err := database.DB.UserDAO()
 	if err != nil {
@@ -107,7 +112,6 @@ func GetUsers(c echo.Context) error {
 		return mustSendError(c, http.StatusInternalServerError, "internal server error", err)
 	}
 
-	// strip out passwords
 	// TODO: this is a hack, there should probably be a separate struct for this
 	for i := range users {
 		users[i].Password = ""

@@ -12,6 +12,7 @@ func GetTransactions(c echo.Context) error {
 	}
 	defer database.DB.Disconnect()
 
+	// TODO: pull this from the auth token
 	// /transaction?owner=ownerOfTransactions
 	owner := c.QueryParam("owner")
 
