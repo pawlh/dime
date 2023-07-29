@@ -1,4 +1,4 @@
-import { writable, derived } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 import cookies from '$lib/utils/cookies';
 import localStorage from '$lib/utils/localStorage';
 
@@ -74,4 +74,7 @@ user.subscribe((value) => {
 	}
 });
 
-export const isLoggedIn = derived(user, ($user) => $user.firstName && $user.lastName);
+export const isLoggedIn = derived(
+	user,
+	($user) => $user.firstName != null && $user.lastName != null
+);
