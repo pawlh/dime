@@ -1,9 +1,9 @@
 package api
 
 import (
-	"fmt"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func RegisterRoutes(e *echo.Echo) {
@@ -26,9 +26,9 @@ func RegisterRoutes(e *echo.Echo) {
 	authenticatedApi.GET("/me", GetMe)
 	authenticatedApi.GET("/transaction", GetTransactions)
 
-	// Default
-	e.GET("/", func(c echo.Context) error {
-		fmt.Println("Hello, World!")
-		return c.String(200, "Hello, World!")
-	})
+	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Root:  "frontend/build",
+		HTML5: true,
+	}))
+
 }
